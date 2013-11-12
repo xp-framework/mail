@@ -1,23 +1,18 @@
-<?php
-/* This class is part of the XP framework
+<?php namespace peer\mail\util;
+
+/**
+ * Image loader
  *
- * $Id$ 
+ * @see      xp://peer.mail.util.HtmlMessage
+ * @purpose  Interface
  */
+interface ImageLoader {
 
   /**
-   * Image loader
+   * Load an image
    *
-   * @see      xp://peer.mail.util.HtmlMessage
-   * @purpose  Interface
+   * @param   peer.URL source
+   * @return  string[2] data and contenttype
    */
-  interface ImageLoader {
-
-    /**
-     * Load an image
-     *
-     * @param   peer.URL source
-     * @return  string[2] data and contenttype
-     */
-    public function load($source);
-  }
-?>
+  public function load($source);
+}

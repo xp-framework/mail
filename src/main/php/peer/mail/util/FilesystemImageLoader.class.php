@@ -1,35 +1,28 @@
-<?php
-/* This class is part of the XP framework
- *
- * $Id$ 
- */
+<?php namespace peer\mail\util;
 
-  uses(
-    'io.File',
-    'io.FileUtil',
-    'util.MimeType',
-    'peer.mail.util.ImageLoader'
-  );
+use io\File;
+use io\FileUtil;
+use util\MimeType;
+
+
+/**
+ * Loads images from the filesystem
+ *
+ * @purpose  ImageLoader
+ */
+class FilesystemImageLoader extends \lang\Object implements ImageLoader {
 
   /**
-   * Loads images from the filesystem
+   * Load an image
    *
-   * @purpose  ImageLoader
+   * @param   peer.URL source
+   * @return  string[2] data and contenttype
    */
-  class FilesystemImageLoader extends Object implements ImageLoader {
+  public function load($source) { 
+    return array(
+      FileUtil::getContents(new File($source->getURL())),
+      MimeType::getByFilename($source->getURL())
+    );
+  }
 
-    /**
-     * Load an image
-     *
-     * @param   peer.URL source
-     * @return  string[2] data and contenttype
-     */
-    public function load($source) { 
-      return array(
-        FileUtil::getContents(new File($source->getURL())),
-        MimeType::getByFilename($source->getURL())
-      );
-    }
-  
-  } 
-?>
+} 

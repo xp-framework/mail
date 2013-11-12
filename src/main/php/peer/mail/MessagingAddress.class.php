@@ -1,21 +1,16 @@
-<?php
-/* This class is part of the XP framework
- *
- * $Id$ 
- */
+<?php namespace peer\mail;
 
+/**
+ * Interface for messaging addresses
+ *
+ * @see      xp://peer.mail.InternetAddress
+ */
+interface MessagingAddress {
+  
   /**
-   * Interface for messaging addresses
+   * Retrieve address
    *
-   * @see      xp://peer.mail.InternetAddress
+   * @return  string
    */
-  interface MessagingAddress {
-    
-    /**
-     * Retrieve address
-     *
-     * @return  string
-     */
-    public function getAddress();
-  }
-?>
+  public function getAddress();
+}

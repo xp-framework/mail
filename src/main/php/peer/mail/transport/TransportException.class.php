@@ -1,16 +1,11 @@
-<?php
-/* This class is part of the XP framework
+<?php namespace peer\mail\transport;
+
+/**
+ * TransportException
  *
- * $Id$ 
+ * @see      xp://peer.mail.transport.Transport
+ * @purpose  Indicate a transport error has occured
  */
+class TransportException extends \lang\XPException {
 
-  /**
-   * TransportException
-   *
-   * @see      xp://peer.mail.transport.Transport
-   * @purpose  Indicate a transport error has occured
-   */
-  class TransportException extends XPException {
-
-  }
-?>
+}

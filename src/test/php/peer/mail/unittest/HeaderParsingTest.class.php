@@ -1,4 +1,4 @@
-<?php namespace net\xp_framework\unittest\peer\mail;
+<?php namespace peer\mail\unittest;
 
 use peer\mail\Message;
 use peer\mail\InternetAddress;
