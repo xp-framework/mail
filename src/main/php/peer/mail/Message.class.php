@@ -3,9 +3,8 @@
 use util\Date;
 use text\encode\QuotedPrintable;
 
-
 // Flags
-  define('MAIL_FLAG_ANSWERED',      0x0001);
+define('MAIL_FLAG_ANSWERED',      0x0001);
 define('MAIL_FLAG_DELETED',       0x0002);
 define('MAIL_FLAG_DRAFT',         0x0004);
 define('MAIL_FLAG_FLAGGED',       0x0008);
@@ -14,17 +13,17 @@ define('MAIL_FLAG_SEEN',          0x0020);
 define('MAIL_FLAG_USER',          0x0030);
 
 // Priorities
-  define('MAIL_PRIORITY_LOW',       0x0005);
+define('MAIL_PRIORITY_LOW',       0x0005);
 define('MAIL_PRIORITY_NORMAL',    0x0003);
 define('MAIL_PRIORITY_HIGH',      0x0001);
 
 // Recipient type for addRecipient, addRecipients and getRecipients
-  define('TO',  'to');
+define('TO',  'to');
 define('CC',  'cc');
 define('BCC', 'bcc');
 
 // Common Header
-  define('HEADER_FROM',         'From');
+define('HEADER_FROM',         'From');
 define('HEADER_TO',           'To');
 define('HEADER_CC',           'Cc');
 define('HEADER_BCC',          'Bcc');
@@ -463,8 +462,8 @@ class Message extends \lang\Object {
         sscanf($t, "%[^:]: %[^\r]", $k, $value);
       }
 
-      switch (ucfirst($k)) {
-        case HEADER_FROM:
+      switch (strtolower($k)) {
+        case 'from':
           if ('' === $value) break;
           try {
             $this->setFrom(InternetAddress::fromString($value));
@@ -473,9 +472,7 @@ class Message extends \lang\Object {
           }
           break;
           
-        case HEADER_TO:
-        case HEADER_CC:
-        case HEADER_BCC:
+        case 'to': case 'cc': case 'bcc':
           if ('' === $value) break;
           $k= strtolower($k);
           $offset= 0;
@@ -496,31 +493,31 @@ class Message extends \lang\Object {
           } while ($offset < strlen($value));
           break;
           
-        case HEADER_MIMEVER:
+        case 'mime-version':
           $this->mimever= $value;
           break;
           
-        case HEADER_SUBJECT:
+        case 'subject':
           $this->subject.= ($this->subject ? ' ' : '').$this->decode($value);
           break;
           
-        case HEADER_CONTENTTYPE: 
+        case 'content-type':
           $this->contenttype.= $value;
           break;
 
-        case HEADER_ENCODING: 
+        case 'content-transfer-encoding':
           $this->encoding= $value;
           break;
           
-        case HEADER_DATE:
+        case 'date':
           $this->setDate($value);
           break;
         
-        case HEADER_PRIORITY:
+        case 'x-priority':
           $this->priority= (int)$value;
           break;
 
-        case HEADER_MESSAGEID:
+        case 'message-id':
           $this->message_id= $value;
           break;
         
