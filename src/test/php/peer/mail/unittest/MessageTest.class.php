@@ -22,7 +22,7 @@ class MessageTest extends AbstractMessageTest {
     $this->assertEquals(
       "X-Common-Header: test\n".
       "Content-Type: text/plain;\n".
-      "\tcharset=\"iso-8859-1\"\n".
+      "\tcharset=\"utf-8\"\n".
       "Mime-Version: 1.0\n".
       "Content-Transfer-Encoding: 8bit\n".
       "X-Priority: 3 (Normal)\n".
@@ -30,5 +30,4 @@ class MessageTest extends AbstractMessageTest {
       $this->fixture->getHeaderString()
     );
   }
-
 }

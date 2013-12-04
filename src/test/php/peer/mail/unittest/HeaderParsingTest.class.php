@@ -102,7 +102,7 @@ class HeaderParsingTest extends \unittest\TestCase {
   #[@test]
   public function quoted_printable_utf8_encoded_subject() {
     $this->assertEquals(
-      "H\xe4llo",
+      'Hällo',
       $this->parse('Subject: =?utf-8?Q?Hällo?=')->getSubject()
     );
   }
@@ -113,7 +113,7 @@ class HeaderParsingTest extends \unittest\TestCase {
   #])]
   public function quoted_printable_multiline_subject($subject) {
     $this->assertEquals(
-      "H\xe4llo W\xf6rld",
+      'Hällo Wörld',
       $this->parse($subject)->getSubject()
     );
   }

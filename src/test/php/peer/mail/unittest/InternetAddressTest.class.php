@@ -40,7 +40,7 @@ class InternetAddressTest extends TestCase {
   #[@test]
   public function colons_are_escaped_in_output() {
     $this->assertEquals(
-      '=?iso-8859-1?Q?I=3A=3ADev?= <idev@example.com>',
+      '=?utf-8?Q?I=3A=3ADev?= <idev@example.com>',
       create(new InternetAddress('idev@example.com', 'I::Dev'))->toString()
     );
   }
@@ -48,8 +48,8 @@ class InternetAddressTest extends TestCase {
   #[@test]
   public function umlaut_are_escaped_in_output() {
     $this->assertEquals(
-      '=?iso-8859-1?Q?M=FCcke?= <muecke@example.com>',
-      create(new InternetAddress('muecke@example.com', 'Mücke'))->toString()
+      '=?utf-8?Q?M=C3=BCcke?= <muecke@example.com>',
+      create(new InternetAddress('muecke@example.com', 'MÃ¼cke'))->toString()
     );
   }
 
@@ -57,7 +57,7 @@ class InternetAddressTest extends TestCase {
   public function umlaut_are_escaped_and_iso_encoded_in_output() {
     $this->assertEquals(
       '=?iso-8859-1?Q?M=FCcke?= <muecke@example.com>',
-      create(new InternetAddress('muecke@example.com', 'Mücke'))->toString('iso-8859-1')
+      create(new InternetAddress('muecke@example.com', 'MÃ¼cke'))->toString('iso-8859-1')
     );
   }
 
@@ -65,14 +65,14 @@ class InternetAddressTest extends TestCase {
   public function umlaut_are_escaped_and_utf8_encoded_in_output() {
     $this->assertEquals(
       '=?utf-8?Q?M=C3=BCcke?= <muecke@example.com>',
-      create(new InternetAddress('muecke@example.com', 'Mücke'))->toString('utf-8')
+      create(new InternetAddress('muecke@example.com', 'MÃ¼cke'))->toString('utf-8')
     );
   }
   
   #[@test]
   public function space_characters_are_escaped_in_output() {
     $this->assertEquals(
-      '=?iso-8859-1?Q?Alex_Kiesel?= <kiesel@example.com>', 
+      '=?utf-8?Q?Alex_Kiesel?= <kiesel@example.com>', 
       create(new InternetAddress('kiesel@example.com', 'Alex Kiesel'))->toString()
     );
   }
