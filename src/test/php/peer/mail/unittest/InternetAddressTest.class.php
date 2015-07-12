@@ -41,7 +41,7 @@ class InternetAddressTest extends TestCase {
   public function colons_are_escaped_in_output() {
     $this->assertEquals(
       '=?utf-8?Q?I=3A=3ADev?= <idev@example.com>',
-      create(new InternetAddress('idev@example.com', 'I::Dev'))->toString()
+      (new InternetAddress('idev@example.com', 'I::Dev'))->toString()
     );
   }
 
@@ -49,7 +49,7 @@ class InternetAddressTest extends TestCase {
   public function umlaut_are_escaped_in_output() {
     $this->assertEquals(
       '=?utf-8?Q?M=C3=BCcke?= <muecke@example.com>',
-      create(new InternetAddress('muecke@example.com', 'Mücke'))->toString()
+      (new InternetAddress('muecke@example.com', 'Mücke'))->toString()
     );
   }
 
@@ -57,7 +57,7 @@ class InternetAddressTest extends TestCase {
   public function umlaut_are_escaped_and_iso_encoded_in_output() {
     $this->assertEquals(
       '=?iso-8859-1?Q?M=FCcke?= <muecke@example.com>',
-      create(new InternetAddress('muecke@example.com', 'Mücke'))->toString('iso-8859-1')
+      (new InternetAddress('muecke@example.com', 'Mücke'))->toString('iso-8859-1')
     );
   }
 
@@ -65,7 +65,7 @@ class InternetAddressTest extends TestCase {
   public function umlaut_are_escaped_and_utf8_encoded_in_output() {
     $this->assertEquals(
       '=?utf-8?Q?M=C3=BCcke?= <muecke@example.com>',
-      create(new InternetAddress('muecke@example.com', 'Mücke'))->toString('utf-8')
+      (new InternetAddress('muecke@example.com', 'Mücke'))->toString('utf-8')
     );
   }
   
@@ -73,7 +73,7 @@ class InternetAddressTest extends TestCase {
   public function space_characters_are_escaped_in_output() {
     $this->assertEquals(
       '=?utf-8?Q?Alex_Kiesel?= <kiesel@example.com>', 
-      create(new InternetAddress('kiesel@example.com', 'Alex Kiesel'))->toString()
+      (new InternetAddress('kiesel@example.com', 'Alex Kiesel'))->toString()
     );
   }
   
@@ -81,7 +81,7 @@ class InternetAddressTest extends TestCase {
   public function get_address_in_raw_format() {
     $this->assertEquals(
       'kiesel@example.com', 
-      create(new InternetAddress('kiesel@example.com', 'Alex Kiesel'))->getAddress()
+      (new InternetAddress('kiesel@example.com', 'Alex Kiesel'))->getAddress()
     );
   }    
 }
