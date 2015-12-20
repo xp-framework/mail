@@ -85,13 +85,13 @@ class InternetAddress extends \lang\Object implements MessagingAddress {
    * @throws  lang.FormatException in case the string could not be parsed into an address
    */
   public static function fromString($str) {
-    static $matches= array(
+    static $matches= [
       '/^=\?([^\?])+\?([QB])\?([^\?]+)\?= <([^ @]+@[0-9a-z.-]+)>$/i' => 3,
       '/^<?([^ @]+@[0-9a-z.-]+)>?$/i'                                => 0,
       '/^"([^"]+)" <([^ @]+@[0-9a-z.-]+)>$/i'                        => 2,
       '/^([^<]+) <([^ @]+@[0-9a-z.-]+)>$/i'                          => 2,
       '/^([^ @]+@[0-9a-z.-]+) \(([^\)]+)\)$/i'                       => 1,
-    );
+    ];
     
     $str= trim(chop($str));
     foreach ($matches as $match => $def) {

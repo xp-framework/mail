@@ -15,7 +15,7 @@ define('SKEY_PART',     'part.');
  */
 class StoreCache extends \lang\Object {
   public
-    $data = array();
+    $data = [];
   
   /**
    * Create string representation, e.g.
@@ -61,7 +61,7 @@ class StoreCache extends \lang\Object {
    */    
   public function expunge() {
     unset($this->data);
-    $this->data= array();
+    $this->data= [];
   }
 
   /**

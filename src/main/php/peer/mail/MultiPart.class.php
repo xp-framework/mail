@@ -9,7 +9,7 @@
  */
 class MultiPart extends MimePart {
   public 
-    $parts     = array(),
+    $parts     = [],
     $charset   = '',
     $boundary  = '';
 

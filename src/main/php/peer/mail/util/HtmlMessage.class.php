@@ -17,7 +17,7 @@ class HtmlMessage extends MimeMessage {
     $text         = null;
   
   public
-    $_loaders     = array(),
+    $_loaders     = [],
     $_prepared    = false;
   
   /**
@@ -117,8 +117,8 @@ class HtmlMessage extends MimeMessage {
       $css
     );
 
-    $matches= array();      
-    foreach (array($images, $css) as $data) {
+    $matches= [];      
+    foreach ([$images, $css] as $data) {
       foreach ($data as $key => $values) {
         foreach ($values as $value) {
           $matches[$key][]= $value;
@@ -126,7 +126,7 @@ class HtmlMessage extends MimeMessage {
       }
     }
 
-    $images= array();
+    $images= [];
     foreach ($matches[3] as $i => $uri) {
       if (isset($images[$uri])) {
         $cid= $images[$uri];

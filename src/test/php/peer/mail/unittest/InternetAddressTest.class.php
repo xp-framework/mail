@@ -15,14 +15,14 @@ class InternetAddressTest extends TestCase {
     $this->assertEquals('example.com', $address->domain);
   }
   
-  #[@test, @values(array(
+  #[@test, @values([
   #  'Alex Kiesel <kiesel@example.com>',
   #  'kiesel@example.com (Alex Kiesel)',
   #  '"Alex Kiesel" <kiesel@example.com>',
   #  '=?iso-8859-1?Q?Alex_Kiesel?= <kiesel@example.com>',
   #  '=?utf-8?Q?Alex_Kiesel?= <kiesel@example.com>',
   #  '=?utf-8?B?QWxleCBLaWVzZWw?= <kiesel@example.com>',
-  #))]
+  #])]
   public function parse_from_string($string) {
     $address= InternetAddress::fromString($string);
     $this->assertEquals('Alex Kiesel', $address->personal);

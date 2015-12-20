@@ -29,7 +29,7 @@ abstract class AbstractMessageTest extends \unittest\TestCase {
    * @return string[]
    */
   protected function recipientTypes() {
-    return array('to', 'cc', 'bcc');
+    return ['to', 'cc', 'bcc'];
   }
 
   #[@test, @values('recipientTypes')]
@@ -51,7 +51,7 @@ abstract class AbstractMessageTest extends \unittest\TestCase {
 
   #[@test, @values('recipientTypes')]
   public function getRecipients_initially_returns_empty_array($type) {
-    $this->assertEquals(array(), $this->fixture->getRecipients($type));
+    $this->assertEquals([], $this->fixture->getRecipients($type));
   }
 
   #[@test, @values('recipientTypes')]
@@ -60,15 +60,15 @@ abstract class AbstractMessageTest extends \unittest\TestCase {
     $r2= new InternetAddress('alex@example.com');
     $this->fixture->addRecipient($type, $r1);
     $this->fixture->addRecipient($type, $r2);
-    $this->assertEquals(array($r1, $r2), $this->fixture->getRecipients($type));
+    $this->assertEquals([$r1, $r2], $this->fixture->getRecipients($type));
   }
 
   #[@test, @values('recipientTypes')]
   public function getRecipients_returns_recipients_added_via_addRecipients($type) {
     $r1= new InternetAddress('thekid@example.com');
     $r2= new InternetAddress('alex@example.com');
-    $this->fixture->addRecipients($type, array($r1, $r2));
-    $this->assertEquals(array($r1, $r2), $this->fixture->getRecipients($type));
+    $this->fixture->addRecipients($type, [$r1, $r2]);
+    $this->assertEquals([$r1, $r2], $this->fixture->getRecipients($type));
   }
 
   #[@test]

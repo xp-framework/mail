@@ -47,20 +47,20 @@ class MimeMessageTest extends AbstractMessageTest {
 
   #[@test]
   public function getParts_initially_returns_empty_array() {
-    $this->assertEquals(array(), $this->fixture->getParts());
+    $this->assertEquals([], $this->fixture->getParts());
   }
 
   #[@test]
   public function getParts_returns_added_part() {
     $part= $this->fixture->addPart(new MimePart());
-    $this->assertEquals(array($part), $this->fixture->getParts());
+    $this->assertEquals([$part], $this->fixture->getParts());
   }
 
   #[@test]
   public function getParts_returns_added_parts() {
     $part1= $this->fixture->addPart(new MimePart());
     $part2= $this->fixture->addPart(new MimePart());
-    $this->assertEquals(array($part1, $part2), $this->fixture->getParts());
+    $this->assertEquals([$part1, $part2], $this->fixture->getParts());
   }
 
   #[@test]
@@ -73,7 +73,7 @@ class MimeMessageTest extends AbstractMessageTest {
   public function getPart_returns_added_parts() {
     $part1= $this->fixture->addPart(new MimePart());
     $part2= $this->fixture->addPart(new MimePart());
-    $this->assertEquals(array($part1, $part2), array($this->fixture->getPart(0), $this->fixture->getPart(1)));
+    $this->assertEquals([$part1, $part2], [$this->fixture->getPart(0), $this->fixture->getPart(1)]);
   }
 
   #[@test]

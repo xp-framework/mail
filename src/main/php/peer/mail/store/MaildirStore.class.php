@@ -112,7 +112,7 @@ class MaildirStore extends MailStore {
    * @return  array* folders array of peer.mail.MailFolder objects
    */
   public function getFolders() {
-    $f= array();
+    $f= [];
     while ($entry= $this->_folder->getEntry()) {
       if (is_dir ($this->_folder->getURI().DIRECTORY_SEPARATOR.$entry)) {
         if ('.' != $entry{0} || '.' == $entry || '..' == $entry) {
@@ -287,14 +287,14 @@ class MaildirStore extends MailStore {
       $count= $this->getMessageCount ();
       $msgnums= range (1, $count);
     } else {
-      $msgnums= array();
+      $msgnums= [];
       for ($i= 1, $s= func_num_args(); $i < $s; $i++) {
         $arg= func_get_arg($i);
         $msgnums= array_merge($msgnums, (array)$arg);
       }
     }
     
-    $messages= array();
+    $messages= [];
     foreach ($msgnums as $msg) {
       $filename= $this->_getMessageURI($f, $msg);
       $flags= $this->_getMailFlags($filename);

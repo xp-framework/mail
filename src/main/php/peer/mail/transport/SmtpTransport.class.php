@@ -44,7 +44,7 @@ class SmtpTransport extends Transport {
     $user  = '',
     $pass  = '',
     $ext   = false,
-    $opt   = array(),
+    $opt   = [],
     $port  = 25,
     $auth  = null;
     
@@ -256,9 +256,9 @@ class SmtpTransport extends Transport {
   public function send($message) {
     try {
       $this->_sockcmd('MAIL FROM: %s', $message->from->getAddress(), 250);
-      foreach (array(TO, CC, BCC) as $type) {
+      foreach ([TO, CC, BCC] as $type) {
         foreach ($message->getRecipients($type) as $r) {
-          $this->_sockcmd('RCPT TO: %s', $r->getAddress(), array(250, 251));
+          $this->_sockcmd('RCPT TO: %s', $r->getAddress(), [250, 251]);
         }
       }
 

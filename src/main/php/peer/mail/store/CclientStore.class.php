@@ -78,7 +78,7 @@ class CclientStore extends MailStore {
       );
     }
 
-    $this->_hdl= array($conn, $mbx);
+    $this->_hdl= [$conn, $mbx];
     return true;
   }
   
@@ -186,7 +186,7 @@ class CclientStore extends MailStore {
       }
       
       // Create MailFolder objects
-      $f= array();
+      $f= [];
       $l= strlen($this->_hdl[1]);
       for ($i= 0; $i < $s; $i++) {
         $f[]= new \peer\mail\MailFolder(
@@ -356,17 +356,17 @@ class CclientStore extends MailStore {
           $this->_errors()
         );
       }
-      if (0 === $check->Nmsgs) return array();
+      if (0 === $check->Nmsgs) return [];
       $msgnums= range(1, $check->Nmsgs);
     } else {
-      $msgnums= array();
+      $msgnums= [];
       for ($i= 1, $s= func_num_args(); $i < $s; $i++) {
         $arg= func_get_arg($i);
         $msgnums= array_merge($msgnums, (array)$arg);
       }
     }
     
-    $messages= array();
+    $messages= [];
     
     // Check cache
     $seq= '';

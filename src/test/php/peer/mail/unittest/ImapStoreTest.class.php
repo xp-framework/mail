@@ -17,7 +17,7 @@ class ImapStoreTest extends TestCase {
    * Sets up test case
    */
   public function setUp() {
-    $this->fixture= newinstance('peer.mail.store.ImapStore', array(), '{
+    $this->fixture= newinstance(ImapStore::class, [], '{
       public $connect= array();
       
       protected function _connect($mbx, $user, $pass, $flags) {

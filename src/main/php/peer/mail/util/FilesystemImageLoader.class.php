@@ -19,10 +19,10 @@ class FilesystemImageLoader extends \lang\Object implements ImageLoader {
    * @return  string[2] data and contenttype
    */
   public function load($source) { 
-    return array(
+    return [
       FileUtil::getContents(new File($source->getURL())),
       MimeType::getByFilename($source->getURL())
-    );
+    ];
   }
 
 } 

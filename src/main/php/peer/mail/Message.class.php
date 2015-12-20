@@ -66,12 +66,12 @@ define('HEADER_RETURNPATH',   'Return-Path');
  */
 class Message extends \lang\Object {
   public 
-    $headers          = array(),
+    $headers          = [],
     $body             = '',
-    $to               = array(),
+    $to               = [],
     $from             = null,
-    $cc               = array(),
-    $bcc              = array(),
+    $cc               = [],
+    $bcc              = [],
     $subject          = '',
     $priority         = MAIL_PRIORITY_NORMAL,
     $contenttype      = 'text/plain',
@@ -90,7 +90,7 @@ class Message extends \lang\Object {
     $_headerlookup    = null;
 
   protected
-    $ofs= array(TO => 0, CC => 0, BCC => 0);
+    $ofs= [TO => 0, CC => 0, BCC => 0];
     
   /**
    * Constructor
@@ -380,7 +380,7 @@ class Message extends \lang\Object {
    * @return  bool TRUE if operation was successfull
    */
   protected function _setHeader($header, $value, $add= false) {
-    static $notallowed= array(HEADER_FROM, HEADER_TO, HEADER_CC, HEADER_BCC);
+    static $notallowed= [HEADER_FROM, HEADER_TO, HEADER_CC, HEADER_BCC];
     
     if (in_array(ucfirst($header), $notallowed)) return false;
     if ($add && isset($this->headers[$header])) {
@@ -468,7 +468,7 @@ class Message extends \lang\Object {
           try {
             $this->setFrom(InternetAddress::fromString($value));
           } catch (\lang\FormatException $e) {
-            $this->setFrom(new InternetAddress(array(null, null), $value));
+            $this->setFrom(new InternetAddress([null, null], $value));
           }
           break;
           
@@ -487,7 +487,7 @@ class Message extends \lang\Object {
             try {
               $this->addRecipient($k, InternetAddress::fromString($recipient));
             } catch (\lang\FormatException $e) {
-              $this->addRecipient($k, new InternetAddress(array(null, null), $value));
+              $this->addRecipient($k, new InternetAddress([null, null], $value));
             }
             $offset+= $span + strspn($value, ', ', $offset + $span);
           } while ($offset < strlen($value));
@@ -584,22 +584,22 @@ class Message extends \lang\Object {
    * @return  string headers
    */
   public function getHeaderString() {
-    static $priorities = array(
+    static $priorities = [
       MAIL_PRIORITY_LOW    => 'Low',
       MAIL_PRIORITY_NORMAL => 'Normal',
       MAIL_PRIORITY_HIGH   => 'High'
-    );
+    ];
     
     // Default headers
     $h= (
-      $this->_astr(HEADER_FROM,   $a= array($this->from)).
+      $this->_astr(HEADER_FROM,   $a= [$this->from]).
       $this->_astr(HEADER_TO,     $this->to).
       $this->_astr(HEADER_CC,     $this->cc).
       $this->_astr(HEADER_BCC,    $this->bcc)
     );
     
     // Additional headers
-    foreach (array_merge($this->headers, array(
+    foreach (array_merge($this->headers, [
       HEADER_SUBJECT      => $this->_qstr(@$this->subject),
       HEADER_CONTENTTYPE  => $this->_getContenttypeHeaderString(),
       HEADER_MIMEVER      => $this->mimever,
@@ -608,7 +608,7 @@ class Message extends \lang\Object {
       HEADER_DATE         => $this->date->toString('r'),
       HEADER_MESSAGEID    => $this->message_id,
       HEADER_RETURNPATH   => $this->returnpath
-    )) as $key => $val) {
+    ]) as $key => $val) {
       if (!empty($val)) $h.= $key.': '.$val."\n";
     }
     return $h;

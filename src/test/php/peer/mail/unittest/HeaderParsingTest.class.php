@@ -35,7 +35,7 @@ class HeaderParsingTest extends \unittest\TestCase {
   #])]
   public function recipient_email($type, $header) {
     $this->assertEquals(
-      array(new InternetAddress('b@example.com')),
+      [new InternetAddress('b@example.com')],
       $this->parse($header)->getRecipients($type)
     );
   }
@@ -46,7 +46,7 @@ class HeaderParsingTest extends \unittest\TestCase {
   #])]
   public function recipient_emails_separated_by_commas($type, $header) {
     $this->assertEquals(
-      array(new InternetAddress('a@example.com'), new InternetAddress('b@example.com')),
+      [new InternetAddress('a@example.com'), new InternetAddress('b@example.com')],
       $this->parse($header)->getRecipients($type)
     );
   }
@@ -57,7 +57,7 @@ class HeaderParsingTest extends \unittest\TestCase {
   #])]
   public function multiple_recipient_headers($type, $header) {
     $this->assertEquals(
-      array(new InternetAddress('a@example.com'), new InternetAddress('b@example.com')),
+      [new InternetAddress('a@example.com'), new InternetAddress('b@example.com')],
       $this->parse($header)->getRecipients($type)
     );
   }
@@ -68,7 +68,7 @@ class HeaderParsingTest extends \unittest\TestCase {
   #])]
   public function recipient_emails_with_names($type, $header) {
     $this->assertEquals(
-      array(new InternetAddress('a@example.com', 'A'), new InternetAddress('b@example.com', 'B')),
+      [new InternetAddress('a@example.com', 'A'), new InternetAddress('b@example.com', 'B')],
       $this->parse($header)->getRecipients($type)
     );
   }
@@ -79,7 +79,7 @@ class HeaderParsingTest extends \unittest\TestCase {
   #])]
   public function recipient_emails_with_quoted_names($type, $header) {
     $this->assertEquals(
-      array(new InternetAddress('a@example.com', 'A, B'), new InternetAddress('b@example.com', 'B, A')),
+      [new InternetAddress('a@example.com', 'A, B'), new InternetAddress('b@example.com', 'B, A')],
       $this->parse($header)->getRecipients($type)
     );
   }

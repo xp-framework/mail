@@ -74,7 +74,7 @@
  */
 class MimeMessage extends Message {
   public
-    $parts     = array(),
+    $parts     = [],
     $encoding  = '',
     $boundary  = '';
     
@@ -192,7 +192,7 @@ class MimeMessage extends Message {
    * @param   string id default '' part id
    */
   protected function _recurseparts(&$parts, $p, $id= '') {
-    static $types= array(
+    static $types= [
       'text',
       'multipart',
       'message',
@@ -201,15 +201,15 @@ class MimeMessage extends Message {
       'image',
       'video',
       'unknown'
-    );
-    static $encodings= array(
+    ];
+    static $encodings= [
       '7bit',
       '8bit',
       'binary',
       'base64',
       'quoted-printable',
       null
-    );
+    ];
     
     for ($i= 0, $s= sizeof($p); $i < $s; $i++) {
       $pid= sprintf('%s%d', $id, $i+ 1);
@@ -351,7 +351,7 @@ class MimeMessage extends Message {
    * @return  peer.mail.MimePart
    */
   public function setBody($str) {
-    $this->parts= array(new MimePart($str, 'text/plain', $this->encoding));
+    $this->parts= [new MimePart($str, 'text/plain', $this->encoding)];
     return $this->parts[0];
   }
 }

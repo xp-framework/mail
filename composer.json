@@ -6,8 +6,12 @@
   "description" : "Mail for XP",
   "keywords": ["module", "xp"],
   "require" : {
-    "xp-framework/core": "~6.0",
-    "php" : ">=5.4.0"
+    "xp-framework/core": "^6.5",
+    "xp-framework/text-encode": "^6.6",
+    "php" : ">=5.5.0"
+  },
+  "require-dev" : {
+    "xp-framework/unittest": "^6.5"
   },
   "autoload" : {
     "files" : ["src/main/php/autoload.php"]

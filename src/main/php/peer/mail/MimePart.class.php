@@ -29,7 +29,7 @@ class MimePart extends \lang\Object {
     $filename         = '',
     $id               = '',
     $body             = '',
-    $headers          = array();
+    $headers          = [];
    
   /**
    * Constructor

@@ -23,7 +23,7 @@ use text\encode\QuotedPrintable;
  */
 class MailTransport extends Transport {
   protected
-    $parameters= array();
+    $parameters= [];
 
   /**
    * Connect to this transport
@@ -83,10 +83,10 @@ class MailTransport extends Transport {
     if (false === mail(
       substr($to, 0, -2),
       QuotedPrintable::encode($message->getSubject(), $message->getCharset()),
-      strtr($message->getBody(), array(
+      strtr($message->getBody(), [
         "\r\n" => "\n",
         "\r"   => "\n"
-      )),
+      ]),
       rtrim($tmp->getHeaderString(), "\n"),
       $this->parameters
     )) {

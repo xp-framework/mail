@@ -57,7 +57,7 @@ abstract class Transport extends \lang\Object implements Traceable {
   protected function trace() {
     if (null == $this->cat) return;
     $args= func_get_args();
-    call_user_func_array(array($this->cat, 'debug'), $args);
+    call_user_func_array([$this->cat, 'debug'], $args);
   }
 
 } 
