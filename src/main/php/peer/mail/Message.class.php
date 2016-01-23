@@ -687,6 +687,6 @@ class Message extends \lang\Object {
       if ('_' == $var{0}) continue;
       $s.= sprintf("  [%-12s] %s\n", $var, \xp::stringOf($vars[$var], '  '));
     }
-    return $this->getClassName().'['.$this->uid."]@{\n".$s."}\n";
+    return nameof($this).'['.$this->uid."]@{\n".$s."}\n";
   }
 }

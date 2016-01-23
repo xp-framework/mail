@@ -28,7 +28,7 @@ class MessagingException extends \lang\XPException {
   public function compoundMessage() {
     return sprintf(
       'Exception %s (%s, %s)',
-      $this->getClassName(),
+      nameof($this),
       $this->message,
       $this->detail
     );

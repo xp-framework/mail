@@ -24,7 +24,7 @@ define('SMTP_AUTH_LOGIN', 'login');
  *     $smtp->connect();            // Uses localhost:25 as default
  *     $smtp->send($msg);
  *   } catch(XPException $e) {
- *     printf("Caught %s\n", $e->getClassName());
+ *     printf("Caught %s\n", $e->compoundMessage());
  *     $e->printStackTrace();
  *   }
  * 

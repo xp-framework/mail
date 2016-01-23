@@ -43,7 +43,7 @@ class StoreCache extends \lang\Object {
       }
       $str.= sprintf("  [%-24s] %s [%s]\n", $key, gettype($this->data[$key]), $a);
     }
-    return $this->getClassName().'['.sizeof($keys)."]@{\n".$str.'}'; 
+    return nameof($this).'['.sizeof($keys)."]@{\n".$str.'}'; 
   }
   
   /**

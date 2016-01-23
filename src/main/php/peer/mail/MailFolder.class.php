@@ -47,11 +47,11 @@ class MailFolder extends \lang\Object {
    */
   public function toString() {
     return (
-      $this->getClassName().
+      nameof($this).
       '['.
       $this->name.
       "]@{\n  name  -> ".
-      $this->store->getClassName().
+      nameof($this->store).
       "\n  cache -> ".
       \xp::stringOf($this->store->cache, '  ').
       "\n}"
