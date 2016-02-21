@@ -5,6 +5,7 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## 7.0.0 / 2016-02-21
 
+* **Adopted semantic versioning. See xp-framework/rfc#300** - @thekid 
 * Added version compatibility with XP 7 - @thekid
 
 ## 6.1.1 / 2016-01-23
