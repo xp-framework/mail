@@ -8,6 +8,7 @@
   "require" : {
     "xp-framework/core": "^7.0 | ^6.5",
     "xp-framework/text-encode": "^7.0 | ^6.6",
+    "xp-framework/networking": "^7.0 | ^6.6",
     "php" : ">=5.5.0"
   },
   "require-dev" : {
