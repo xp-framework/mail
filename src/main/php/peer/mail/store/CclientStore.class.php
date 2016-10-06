@@ -388,7 +388,7 @@ class CclientStore extends MailStore {
 
       for ($i= 0, $s= sizeof($list); $i < $s; $i++) {
         $header= $this->getMessagePart($f, $list[$i]->uid, '0');
-        $class= stristr($header, 'Content-Type: multipart/') ? 'MimeMessage': 'Message';
+        $class= stristr($header, 'Content-Type: multipart/') ? 'peer\mail\MimeMessage': 'peer\mail\Message';
         
         $m= new $class($list[$i]->uid);
         $m->size= $list[$i]->size;
