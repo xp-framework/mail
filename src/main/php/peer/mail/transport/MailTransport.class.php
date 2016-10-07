@@ -55,7 +55,7 @@ class MailTransport extends Transport {
   
     // Sanity check: Is this a message?
     if (!$message instanceof \peer\mail\Message) {
-      throw new \TransportException(
+      throw new TransportException(
         'Can only send messages (given: '.\xp::typeOf($message).')',
         new \lang\IllegalArgumentException('Parameter message is not a Message object')
       );
@@ -68,7 +68,7 @@ class MailTransport extends Transport {
       $to.= $message->to[$i]->toString($message->getCharset()).', ';
     }
     if (empty($to)) {
-      throw new \TransportException(
+      throw new TransportException(
         'No recipients defined (recipients[0]: '.\xp::typeOf($message->to[0]),
         new \lang\IllegalArgumentException('Recipient #0 is not an InternetAddress object')
       );
@@ -90,7 +90,7 @@ class MailTransport extends Transport {
       rtrim($tmp->getHeaderString(), "\n"),
       $this->parameters
     )) {
-      throw new \TransportException(
+      throw new TransportException(
         'Could not send mail to '.\xp::stringOf($message->to[0]), 
         new \io\IOException('Call to mail() failed')
       );

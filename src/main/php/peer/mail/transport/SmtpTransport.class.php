@@ -3,9 +3,8 @@
 use peer\URL;
 use peer\Socket;
 
-
 // Authentication methods
-  define('SMTP_AUTH_PLAIN', 'plain');
+define('SMTP_AUTH_PLAIN', 'plain');
 define('SMTP_AUTH_LOGIN', 'login');
  
 /**
@@ -224,7 +223,7 @@ class SmtpTransport extends Transport {
       $this->_hello();                        // Polite people say hello
       $this->_login();                        // Log in
     } catch (\lang\XPException $e) {
-      throw new \TransportException('Connect failed', $e);
+      throw new TransportException('Connect failed', $e);
     }
     
     return true;
@@ -240,7 +239,7 @@ class SmtpTransport extends Transport {
       $this->_sock->write("QUIT\r\n"); 
       $this->_sock->close();
     } catch (\lang\XPException $e) {
-      throw new \TransportException('Could not shutdown communications', $e);
+      throw new TransportException('Could not shutdown communications', $e);
     }
     
     return true;      
@@ -272,7 +271,7 @@ class SmtpTransport extends Transport {
         $message->getBody()
       ), false);
     } catch (\lang\XPException $e) {
-      throw new \TransportException('Sending message failed', $e);
+      throw new TransportException('Sending message failed', $e);
     }
     
     return (bool)$this->_sockcmd('.', 250);

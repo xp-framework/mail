@@ -3,7 +3,11 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
-## 7.1.2 / 2016-10.06
+## 7.1.3 / 2016-10-06
+
+* Fixed exception handling in mail transports - @thekid
+
+## 7.1.2 / 2016-10-06
 
 * Fixed fetching mails from server (Error `Class 'MimeMessage' not found`)
   (@thekid)
