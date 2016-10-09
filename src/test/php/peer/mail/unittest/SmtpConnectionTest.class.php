@@ -4,6 +4,8 @@ use lang\FormatException;
 use lang\IllegalArgumentException;
 use peer\mail\transport\SmtpConnection;
 use peer\mail\transport\TransportException;
+use peer\mail\Message;
+use peer\mail\InternetAddress;
 use peer\URL;
 use peer\Socket;
 use peer\SocketException;
@@ -273,5 +275,41 @@ class SmtpConnectionTest extends \unittest\TestCase {
       'write'       => function($bytes) use(&$commands) { $commands[]= rtrim($bytes, "\r\n"); }
     ]));
     $conn->connect();
+  }
+
+  #[@test]
+  public function sending() {
+    $commands= [];
+    $answers= [
+      '220 test (mreue101) ESMTP Service ready',
+      '250 test Hello tester',
+      '250 Requested mail action okay, completed',
+      '250 OK',
+      '354 Start mail input; end with <CRLF>.<CRLF>',
+      '250 Requested mail action okay, completed: id=0MRQIm-1bQdor2WfA-00Sb7F'
+    ];
+    $conn= new SmtpConnection('smtp://test?helo=tester', newinstance(Socket::class, ['test', 25], [
+      'connected'   => false,
+      'isConnected' => function() { return $this->connected; },
+      'connect'     => function($timeout= 2) { $this->connected= true; },
+      'close'       => function() { $this->connected= false; },
+      'read'        => function($n= 8192) use(&$answers) { return array_shift($answers)."\r\n"; },
+      'write'       => function($bytes) use(&$commands) { $commands[]= rtrim($bytes, "\r\n"); }
+    ]));
+
+    $conn->connect();
+    $conn->send(with (new Message(), function($self) {
+      $self->setFrom(new InternetAddress('sender@example.com'));
+      $self->addRecipient(TO, new InternetAddress('recipient@example.com'));
+      $self->setSubject('Test');
+      $self->setBody('Test');
+      return $self;
+    }));
+    $conn->close();
+
+    $this->assertEquals(
+      ['HELO tester', 'MAIL FROM: sender@example.com', 'RCPT TO: recipient@example.com', 'DATA', null, 'Test', '.', 'QUIT'],
+      array_merge(array_slice($commands, 0, 4), [null], array_slice($commands, 5))
+    );
   }
 }

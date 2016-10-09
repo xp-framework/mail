@@ -209,7 +209,7 @@ class SmtpConnection extends Transport {
       if (false === $this->socket->write($cmd."\r\n")) return false;
 
       // Expecting data?
-      if (null === $expect[0]) return '';
+      if ([] === $expect) return '';
     }
     
     // Read
