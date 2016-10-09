@@ -142,13 +142,17 @@ class SmtpConnection extends Transport {
   private function stls($method) {
     switch (strtolower($method)) {
       case self::STARTTLS_AUTO:
-        return function() { isset($this->capabilities['STARTTLS']) && $this->starttls(); };
+        return function() {
+          if (isset($this->capabilities['STARTTLS']) && function_exists('stream_socket_enable_crypto')) {
+            $this->starttls();
+          }
+        };
 
       case self::STARTTLS_NEVER:
         return null;
 
       case self::STARTTLS_ALWAYS:
-        return function() { $this->starttls(); };
+        return [$this, 'starttls'];
 
       default: throw new IllegalArgumentException('STARTTLS mode '.$method.' not supported');
     }
@@ -157,7 +161,8 @@ class SmtpConnection extends Transport {
   /**
    * Run STARTTLS, EHLO
    *
-   * @see  https://tools.ietf.org/html/rfc3207 section "5. Usage example"
+   * @see    https://tools.ietf.org/html/rfc3207 section "5. Usage example"
+   * @return void
    */
   private function starttls() {
     $this->command('STARTTLS', [], 220);
