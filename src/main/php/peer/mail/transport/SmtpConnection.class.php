@@ -45,8 +45,8 @@ class SmtpConnection extends Transport {
    * - smtp://localhost
    * - smtp://localhost:2525
    * - smtp://localhost:25/?helo=hostname.used.in.ehlo
-   * - esmtp://user:pass@smtp.example.com:25/?auth=plain
-   * - esmtp://user:pass@smtp.example.com:25/?auth=login
+   * - esmtp://user:pass@smtp.example.com:25/?auth=[plain,login]
+   * - esmtp://smtp.example.com:25/?starttls=[auto,always,never]
    *
    * @param  string|peer.URL $dsn
    * @param  peer.Socket $socket Used to exchange socket implementation
