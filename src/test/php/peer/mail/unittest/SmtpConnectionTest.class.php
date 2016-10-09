@@ -7,6 +7,7 @@ use peer\mail\transport\TransportException;
 use peer\URL;
 use peer\Socket;
 use peer\SocketException;
+use unittest\actions\VerifyThat;
 
 class SmtpConnectionTest extends \unittest\TestCase {
 
@@ -230,7 +231,9 @@ class SmtpConnectionTest extends \unittest\TestCase {
     $conn->connect();
   }
 
-  #[@test, @expect(TransportException::class)]
+  #[@test, @expect(TransportException::class), @action(new VerifyThat(function() {
+  #  return function_exists('stream_socket_enable_crypto');
+  #}))]
   public function starttls_refused() {
     $commands= [];
     $answers= [
@@ -250,7 +253,9 @@ class SmtpConnectionTest extends \unittest\TestCase {
     $conn->connect();
   }
 
-  #[@test, @expect(TransportException::class)]
+  #[@test, @expect(TransportException::class), @action(new VerifyThat(function() {
+  #  return function_exists('stream_socket_enable_crypto');
+  #}))]
   public function starttls_failure() {
     $commands= [];
     $answers= [
