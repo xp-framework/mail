@@ -45,6 +45,7 @@ class SmtpConnection extends Transport {
    * - esmtp://user:pass@smtp.example.com:25/?auth=login
    *
    * @param  string|peer.URL $dsn
+   * @param  peer.Socket $socket Used to exchange socket implementation
    * @throws lang.IllegalArgumentException
    */
   public function __construct($dsn, $socket= null) {
