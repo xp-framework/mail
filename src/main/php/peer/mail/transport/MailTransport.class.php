@@ -1,8 +1,8 @@
 <?php namespace peer\mail\transport;
  
 use text\encode\QuotedPrintable;
+use peer\mail\Message;
 
- 
 /**
  * Mail transport via built-in mail() function
  *
@@ -29,38 +29,21 @@ class MailTransport extends Transport {
    * Connect to this transport
    *
    * @param   string dsn default NULL additional parameters for sendmail
-   * @return  bool success
+   * @return  self
    */
   public function connect($dsn= null) { 
     $this->parameters= $dsn;
-    return true;
+    return $this;
   }
   
-  /**
-   * Close connection
-   *
-   * @return  bool success
-   */
-  public function close() { 
-    return true;
-  }
-
   /**
    * Send a message
    *
    * @param   peer.mail.Message message the Message object to send
    * @return  bool success
    */
-  public function send($message) { 
+  public function send(Message $message) { 
   
-    // Sanity check: Is this a message?
-    if (!$message instanceof \peer\mail\Message) {
-      throw new TransportException(
-        'Can only send messages (given: '.\xp::typeOf($message).')',
-        new \lang\IllegalArgumentException('Parameter message is not a Message object')
-      );
-    }
-    
     // Sanity check: Do we have at least one recipient?
     $to= '';
     for ($i= 0, $s= sizeof($message->to); $i < $s; $i++) {

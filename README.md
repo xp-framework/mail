@@ -42,3 +42,20 @@ try {
 
 $smtp->close();
 ```
+
+## Using an SMTP server
+
+```php
+use peer\mail\transport\SmtpConnection;
+use peer\mail\transport\TransportException;
+
+$smtp= new SmtpConnection('esmtp://user:pass@mail.example.com:25/?auth=login');
+try {
+  $smtp->connect();
+  $smtp->send($msg);
+} catch (TransportException $e) {
+  $e->printStackTrace();
+}
+
+$smtp->close();
+```
