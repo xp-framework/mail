@@ -3,6 +3,14 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 7.2.0 / 2016-10-09
+
+* Merged pull request #1: SMTP connection class
+  - Heads up: Deprecated SmtpTransport in favor of SmtpConnection
+  - Added support for STARTTLS
+  - Added support for SMTPS
+  (@thekid)
+
 ## 7.1.3 / 2016-10-06
 
 * Fixed exception handling in mail transports - @thekid
