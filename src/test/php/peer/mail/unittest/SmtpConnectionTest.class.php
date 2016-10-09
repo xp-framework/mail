@@ -119,8 +119,7 @@ class SmtpConnectionTest extends \unittest\TestCase {
       '220 test (mreue101) ESMTP Service ready',
       '250-test Hello tester',
       '250-SIZE 69920427',
-      '250-AUTH LOGIN PLAIN',
-      '250 STARTTLS'
+      '250 AUTH LOGIN PLAIN'
     ];
     $conn= new SmtpConnection('esmtp://test?helo=tester', newinstance(Socket::class, ['test', 25], [
       'connected'   => false,
@@ -135,7 +134,7 @@ class SmtpConnectionTest extends \unittest\TestCase {
 
     $this->assertEquals(['EHLO tester', 'QUIT'], $commands);
     $this->assertEquals('test (mreue101) ESMTP Service ready', $conn->banner());
-    $this->assertEquals(['SIZE 69920427', 'AUTH LOGIN PLAIN', 'STARTTLS'], $conn->capabilities());
+    $this->assertEquals(['SIZE 69920427', 'AUTH LOGIN PLAIN'], $conn->capabilities());
   }
 
   #[@test]
@@ -213,6 +212,26 @@ class SmtpConnectionTest extends \unittest\TestCase {
       '535 Authentication credentials invalid'
     ];
     $conn= new SmtpConnection('esmtp://user:pass@test?helo=tester', newinstance(Socket::class, ['test', 25], [
+      'connected'   => false,
+      'isConnected' => function() { return $this->connected; },
+      'connect'     => function($timeout= 2) { $this->connected= true; },
+      'close'       => function() { $this->connected= false; },
+      'read'        => function($n= 8192) use(&$answers) { return array_shift($answers)."\r\n"; },
+      'write'       => function($bytes) use(&$commands) { $commands[]= rtrim($bytes, "\r\n"); }
+    ]));
+    $conn->connect();
+  }
+
+  #[@test, @expect(TransportException::class)]
+  public function starttls_refused() {
+    $commands= [];
+    $answers= [
+      '220 test (mreue101) ESMTP Service ready',
+      '250-test Hello tester',
+      '250 STARTTLS',
+      '454 TLS not available due to temporary reason'
+    ];
+    $conn= new SmtpConnection('esmtp://test?helo=tester', newinstance(Socket::class, ['test', 25], [
       'connected'   => false,
       'isConnected' => function() { return $this->connected; },
       'connect'     => function($timeout= 2) { $this->connected= true; },

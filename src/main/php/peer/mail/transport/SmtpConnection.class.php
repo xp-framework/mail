@@ -29,8 +29,12 @@ class SmtpConnection extends Transport {
   const AUTH_PLAIN = 'plain';
   const AUTH_LOGIN = 'login';
 
+  const STARTTLS_AUTO   = 'auto';
+  const STARTTLS_NEVER  = 'never';
+  const STARTTLS_ALWAYS = 'always';
+
   private $init, $host, $port, $helo, $socket;
-  private $user, $pass, $auth= null;
+  private $user, $pass, $auth= null, $stls= null;
   private $banner= null, $capabilities= [];
 
   /**
@@ -55,6 +59,7 @@ class SmtpConnection extends Transport {
     $this->host= $u->getHost();
     $this->port= $u->getPort(25);
     $this->helo= $u->getParam('helo', gethostname());
+    $this->stls= $this->stls($u->getParam('starttls', 'auto'));
 
     if ($this->user= $u->getUser()) {
       $this->pass= $u->getPassword();
@@ -74,7 +79,7 @@ class SmtpConnection extends Transport {
   public function banner() { return $this->banner; }
 
   /** @return string[] */
-  public function capabilities() { return $this->capabilities; }
+  public function capabilities() { return array_keys($this->capabilities); }
 
   /**
    * Setup initialization method
@@ -87,11 +92,10 @@ class SmtpConnection extends Transport {
       case 'esmtp':
         return function() {
           $answer= $this->command('EHLO %s', $this->helo, 250);
-          $this->capabilities= [];
           while ($answer && $buf= $this->socket->read()) {
             sscanf($buf, "%d%[^\r]", $code, $capability);
             $this->trace('+++', $code, $capability);
-            $this->capabilities[]= substr($capability, 1);
+            $this->capabilities[substr($capability, 1)]= true;
             if ('-' !== $capability{0}) break;
           }
         };
@@ -127,6 +131,43 @@ class SmtpConnection extends Transport {
         
       default: throw new IllegalArgumentException('Authentication method '.$method.' not supported');
     }
+  }
+
+  /**
+   * Setup STARTTLS method
+   *
+   * @param  string $method
+   * @return function(): void
+   */
+  private function stls($method) {
+    switch (strtolower($method)) {
+      case self::STARTTLS_AUTO:
+        return function() { isset($this->capabilities['STARTTLS']) && $this->starttls(); };
+
+      case self::STARTTLS_NEVER:
+        return null;
+
+      case self::STARTTLS_ALWAYS:
+        return function() { $this->starttls(); };
+
+      default: throw new IllegalArgumentException('STARTTLS mode '.$method.' not supported');
+    }
+  }
+
+  /**
+   * Run STARTTLS, EHLO
+   *
+   * @see  https://tools.ietf.org/html/rfc3207 section "5. Usage example"
+   */
+  private function starttls() {
+    $this->command('STARTTLS', [], 220);
+    $this->trace('*** Enabling crypto (STREAM_CRYPTO_METHOD_TLS_CLIENT)');
+    if (stream_socket_enable_crypto($this->socket->getHandle(), true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
+      if ($f= $this->init) $f();
+      return;
+    }
+
+    throw new ProtocolException('Could not negotiate a TLS session');
   }
 
   /**
@@ -177,6 +218,7 @@ class SmtpConnection extends Transport {
       $this->socket->connect();
       $this->banner= substr($this->command(null, [], 220), 4);
       if ($f= $this->init) $f();
+      if ($f= $this->stls) $f();
       if ($f= $this->auth) $f();
     } catch (Throwable $e) {
       $this->socket->close();
@@ -195,6 +237,7 @@ class SmtpConnection extends Transport {
     if (!$this->socket->isConnected()) return;
 
     try {
+      $this->trace('>>> QUIT');
       $this->socket->write("QUIT\r\n"); 
       $this->socket->close();
     } catch (Throwable $e) {
