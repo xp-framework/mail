@@ -14,7 +14,10 @@ class SmtpConnectionTest extends \unittest\TestCase {
   #  'smtp://smtp.example.com',
   #  'smtp://smtp.example.com:2525',
   #  'esmtp://user:pass@smtp.example.com:25/?auth=plain',
-  #  'esmtp://user:pass@smtp.example.com:25/?auth=login'
+  #  'esmtp://user:pass@smtp.example.com:25/?auth=login',
+  #  'esmtp://user:pass@smtp.example.com:25/?starttls=never',
+  #  'esmtp://user:pass@smtp.example.com:25/?starttls=auto',
+  #  'esmtp://user:pass@smtp.example.com:25/?starttls=always'
   #])]
   public function can_create_with($dsn) {
     new SmtpConnection($dsn);
@@ -42,6 +45,11 @@ class SmtpConnectionTest extends \unittest\TestCase {
   #[@test, @expect(IllegalArgumentException::class)]
   public function unsupported_authentication() {
     new SmtpConnection('smtp://user:pass@localhost:25/?auth=illegal');
+  }
+
+  #[@test, @expect(IllegalArgumentException::class)]
+  public function unsupported_starttls() {
+    new SmtpConnection('esmtp://localhost:25/?starttls=illegal');
   }
 
   #[@test, @values([
