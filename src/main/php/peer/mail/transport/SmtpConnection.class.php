@@ -2,6 +2,8 @@
  
 use peer\URL;
 use peer\Socket;
+use peer\SSLSocket;
+use peer\TLSSocket;
 use peer\ProtocolException;
 use lang\Throwable;
 use lang\IllegalArgumentException;
@@ -47,6 +49,8 @@ class SmtpConnection extends Transport {
    * - smtp://localhost:25/?helo=hostname.used.in.ehlo
    * - esmtp://user:pass@smtp.example.com:25/?auth=[plain,login]
    * - esmtp://smtp.example.com:25/?starttls=[auto,always,never]
+   * - smtps://localhost:587
+   * - esmtps://smtp.example.com:587
    *
    * @param  string|peer.URL $dsn
    * @param  peer.Socket $socket Used to exchange socket implementation
@@ -55,18 +59,28 @@ class SmtpConnection extends Transport {
   public function __construct($dsn, $socket= null) {
     $u= $dsn instanceof URL ? $dsn : new URL($dsn);
 
-    $this->init= $this->init($u->getScheme());
+    sscanf($u->getScheme(), '%[^+]+%s', $scheme, $arg);
+    $this->init= $this->init($scheme);
     $this->host= $u->getHost();
-    $this->port= $u->getPort(25);
     $this->helo= $u->getParam('helo', gethostname());
-    $this->stls= $this->stls($u->getParam('starttls', 'auto'));
 
     if ($this->user= $u->getUser()) {
       $this->pass= $u->getPassword();
       $this->auth= $this->auth($u->getParam('auth', self::AUTH_PLAIN));
     }
 
-    $this->socket= $socket ?: new Socket($this->host, $this->port);
+    if ('smtp' === $scheme || 'esmtp' === $scheme) {
+      $this->port= $u->getPort(25);
+      $this->socket= $socket ?: new Socket($this->host, $this->port);
+      $this->stls= $this->stls($u->getParam('starttls', 'auto'));
+    } else if ('tls' === $arg) {
+      $this->port= $u->getPort(587);
+      $this->socket= new TLSSocket($this->host, $this->port, null);
+    } else {
+      sscanf($arg, 'v%d', $version);
+      $this->port= $u->getPort(587);
+      $this->socket= new SSLSocket($this->host, $this->port, null, $version);
+    }
   }
 
   /** @return string */
@@ -89,7 +103,7 @@ class SmtpConnection extends Transport {
    */
   private function init($scheme) {
     switch (strtolower($scheme)) {
-      case 'esmtp':
+      case 'esmtp': case 'esmtps':
         return function() {
           $answer= $this->command('EHLO %s', $this->helo, 250);
           while ($answer && $buf= $this->socket->read()) {
@@ -100,7 +114,7 @@ class SmtpConnection extends Transport {
           }
         };
 
-      case 'smtp':
+      case 'smtp': case 'smtps':
         return function() {
           $this->command('HELO %s', [$this->helo], 250);
         };
