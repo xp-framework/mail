@@ -167,7 +167,9 @@ class SmtpConnection extends Transport {
       return;
     }
 
-    throw new ProtocolException('Could not negotiate a TLS session');
+    $e= new ProtocolException('Could not negotiate a TLS session');
+    \xp::gc(__FILE__);
+    throw $e;
   }
 
   /**

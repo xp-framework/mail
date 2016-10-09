@@ -249,4 +249,24 @@ class SmtpConnectionTest extends \unittest\TestCase {
     ]));
     $conn->connect();
   }
+
+  #[@test, @expect(TransportException::class)]
+  public function starttls_failure() {
+    $commands= [];
+    $answers= [
+      '220 test (mreue101) ESMTP Service ready',
+      '250-test Hello tester',
+      '250 STARTTLS',
+      '220 Go ahead'
+    ];
+    $conn= new SmtpConnection('esmtp://test?helo=tester', newinstance(Socket::class, ['test', 25], [
+      'connected'   => false,
+      'isConnected' => function() { return $this->connected; },
+      'connect'     => function($timeout= 2) { $this->connected= true; },
+      'close'       => function() { $this->connected= false; },
+      'read'        => function($n= 8192) use(&$answers) { return array_shift($answers)."\r\n"; },
+      'write'       => function($bytes) use(&$commands) { $commands[]= rtrim($bytes, "\r\n"); }
+    ]));
+    $conn->connect();
+  }
 }
