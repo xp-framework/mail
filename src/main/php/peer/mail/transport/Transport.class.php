@@ -1,49 +1,49 @@
 <?php namespace peer\mail\transport;
  
 use util\log\Traceable;
-
+use util\log\LogCategory;
+use peer\mail\Message;
+use lang\IllegalArgumentException;
 
 /**
  * Abstract base class for mail transport
- *
- * @purpose  Provide an interface
  */
-abstract class Transport extends \lang\Object implements Traceable {
-  public
-    $cat    = null;
+abstract class Transport implements Traceable, \lang\Closeable {
+  public $cat= null;
 
   /**
    * Connect to this transport
    *
-   * @param   string dsn default NULL
+   * @return self
    */
-  public function connect($dsn= null) { }
+  public function connect() { return $this; }
   
   /**
    * Close connection
    *
+   * @return void
    */
   public function close() { }
 
   /**
    * Send a message
    *
-   * @param   peer.mail.Message message the Message object to send
-   * @throws  peer.mail.transport.TransportException to indicate an error occured
+   * @param  peer.mail.Message $message
+   * @return bool success
+   * @throws peer.mail.TransportException
    */
-  public abstract function send($message);
+  public abstract function send(Message $message);
   
   /**
    * Set a LogCategory for tracing communication
    *
-   * @param   util.log.LogCategory cat a LogCategory object to which communication
-   *          information will be passed to or NULL to stop tracing
-   * @return  util.log.LogCategory
-   * @throws  lang.IllegalArgumentException in case a of a type mismatch
+   * @param  util.log.LogCategory $cat pass NULL to stop tracing
+   * @return void
+   * @throws lang.IllegalArgumentException in case a of a type mismatch
    */
   public function setTrace($cat) {
-    if (null !== $cat && !$cat instanceof \util\log\LogCategory) {
-      throw new \lang\IllegalArgumentException('Argument passed is not a LogCategory');
+    if (null !== $cat && !$cat instanceof LogCategory) {
+      throw new IllegalArgumentException('Expected a LogCategory, have '.\xp::typeOf($cat));
     }
     
     $this->cat= $cat;
@@ -52,12 +52,12 @@ abstract class Transport extends \lang\Object implements Traceable {
   /**
    * Trace function
    *
-   * @param   var* arguments
+   * @param  var... arguments
+   * @return void
    */
   protected function trace() {
-    if (null == $this->cat) return;
+    if (null === $this->cat) return;
     $args= func_get_args();
     call_user_func_array([$this->cat, 'debug'], $args);
   }
-
-} 
+}

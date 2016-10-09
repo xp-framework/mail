@@ -2,6 +2,7 @@
  
 use peer\URL;
 use peer\Socket;
+use peer\mail\Message;
 
 // Authentication methods
 define('SMTP_AUTH_PLAIN', 'plain');
@@ -35,6 +36,7 @@ define('SMTP_AUTH_LOGIN', 'login');
  * @see      rfc://1891 SMTP Service Extension for Delivery Status Notifications
  * @see      http://www.sendmail.org/~ca/email/authrealms.html
  * @purpose  Provide a transport for SMTP/ESMTP
+ * @deprecated Use SmtpConnection instead!
  */
 class SmtpTransport extends Transport {
   public
@@ -211,10 +213,11 @@ class SmtpTransport extends Transport {
    *   esmtp://user:pass@smtp.example.com:25/?auth=login
    * </pre>
    *
-   * @param   string dsn default NULL if omitted, 'smtp://localhost:25' will be assumed
+   * @param  string $dsn default NULL if omitted, 'smtp://localhost:25' will be assumed
+   * @return self
    */
   public function connect($dsn= null) { 
-    if (false === $this->_parsedsn($dsn)) return false;
+    $this->_parsedsn($dsn);
     
     $this->_sock= new Socket($this->host, $this->port);
     try {
@@ -226,12 +229,13 @@ class SmtpTransport extends Transport {
       throw new TransportException('Connect failed', $e);
     }
     
-    return true;
+    return $this;
   }
   
   /**
    * Close connection
    *
+   * @return void
    */
   public function close() {
     if (null === $this->_sock) return;
@@ -241,8 +245,6 @@ class SmtpTransport extends Transport {
     } catch (\lang\XPException $e) {
       throw new TransportException('Could not shutdown communications', $e);
     }
-    
-    return true;      
   }
 
   /**
@@ -252,7 +254,7 @@ class SmtpTransport extends Transport {
    * @return  bool TRUE in case of success
    * @throws  peer.mail.transport.TransportException to indicate an error occured
    */
-  public function send($message) {
+  public function send(Message $message) {
     try {
       $this->_sockcmd('MAIL FROM: %s', $message->from->getAddress(), 250);
       foreach ([TO, CC, BCC] as $type) {
