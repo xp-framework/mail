@@ -137,8 +137,6 @@ class SmtpConnection extends Transport {
    * @return string buf
    */
   protected function command($fmt, $args, $expect) {
-    if (null === $this->socket) return;
-    
     $expect= (array)$expect;
 
     // Send command
