@@ -147,6 +147,38 @@ class CclientStore extends MailStore {
   }
 
   /**
+   * Create a folder
+   *
+   * @param   string name
+   * @return  peer.mail.MailFolder
+   * @throws  peer.mail.MessagingException
+   */
+  public function newFolder($name) {
+    if (!imap_createmailbox($this->_hdl[0], $this->_hdl[1].$name)) {
+      throw new \peer\mail\MessagingException('Creating mailbox failed', $this->_errors());
+    }
+
+    $folder= new \peer\mail\MailFolder($this, $name);
+    $this->cache->put(SKEY_FOLDER.$name, $folder);
+    return $folder;
+  }
+
+  /**
+   * Remove a folder
+   *
+   * @param   string name
+   * @return  void
+   * @throws  peer.mail.MessagingException
+   */
+  public function removeFolder($name) {
+    if (!imap_deletemailbox($this->_hdl[0], $this->_hdl[1].$name)) {
+      throw new \peer\mail\MessagingException('Deleting mailbox failed', $this->_errors());
+    }
+
+    $this->cache->remove(SKEY_FOLDER.$name);
+  }
+
+  /**
    * Get a folder. Note: Results from this method are cached.
    *
    * @param   string name
@@ -184,15 +216,12 @@ class CclientStore extends MailStore {
           $this->_errors()
         );
       }
-      
+
       // Create MailFolder objects
       $f= [];
       $l= strlen($this->_hdl[1]);
-      for ($i= 0; $i < $s; $i++) {
-        $f[]= new \peer\mail\MailFolder(
-          $this,
-          imap_utf7_decode(substr($list[$i]->name, $l))
-        );
+      foreach ($list as $folder) {
+        $f[]= new \peer\mail\MailFolder($this, imap_utf7_decode(substr($folder->name, $l)));
       }
 
       $this->cache->put(SKEY_LIST.SKEY_FOLDER, $f);
