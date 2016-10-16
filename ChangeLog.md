@@ -3,7 +3,7 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
-## 7.2.1 / 2016-10-16
+## 7.3.0 / 2016-10-16
 
 * Added `newFolder()` and `removeFolder()` methods to `CclientStore`
   (@thekid)
