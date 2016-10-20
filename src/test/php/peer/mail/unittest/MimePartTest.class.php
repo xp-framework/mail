@@ -30,6 +30,16 @@ class MimePartTest extends \unittest\TestCase {
   }
 
   #[@test]
+  public function name() {
+    $this->assertEquals('test.txt', (new MimePart('Test', 'text/plain', null, 'test.txt'))->getName());
+  }
+
+  #[@test]
+  public function encoding() {
+    $this->assertEquals(MIME_ENC_BASE64, (new MimePart('VGVzdA==', 'text/plain', MIME_ENC_BASE64))->getEncoding());
+  }
+
+  #[@test]
   public function is_not_an_attachment() {
     $this->assertFalse((new MimePart('Test', 'text/plain'))->isAttachment());
   }
