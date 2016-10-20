@@ -1,11 +1,11 @@
 <?php namespace peer\mail;
 
-
+use lang\IllegalArgumentException;
 
 /**
- * Mail message
+ * Multipart/alternative
  *
- * @purpose  Wrap
+ * @test  xp://peer.mail.unittest.MultiPartTest
  */
 class MultiPart extends MimePart {
   public 
@@ -18,9 +18,7 @@ class MultiPart extends MimePart {
     
   /**
    * Constructor. Also generates a boundary of the form
-   * <pre>
-   * ----=_Alternative_10424693873e22d20b43b490.00112051
-   * </pre>
+   * `----=_Alternative_10424693873e22d20b43b490.00112051`
    *
    * @param   peer.mail.MimePart* parts
    */
@@ -43,7 +41,6 @@ class MultiPart extends MimePart {
    */
   public function setBoundary($b) {
     $this->boundary= $b;
-    // $this->contenttype= 'multipart/alternative; boundary="'.$this->boundary.'"';
     $this->setContenttype('multipart/alternative');
     $this->charset= '';
   }
@@ -76,7 +73,7 @@ class MultiPart extends MimePart {
    */
   public function addPart($part) {
     if (!$part instanceof MimePart) {
-      throw new \lang\IllegalArgumentException(
+      throw new IllegalArgumentException(
         'Parameter part is not a peer.mail.MimePart (given: '.\xp::typeOf($part).')'
       );
     }
