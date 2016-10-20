@@ -3,6 +3,12 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 7.3.2 / 2016-10-20
+
+* Made header parsing for mime parts consistent with message header
+  parsing; added a bunch of tests to verify various situations.
+  (@thekid)
+
 ## 7.3.1 / 2016-10-20
 
 * Fixed `lang.IndexOutOfBoundsException (Undefined offset: 1)` error
