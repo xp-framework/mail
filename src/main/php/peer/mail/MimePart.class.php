@@ -2,14 +2,13 @@
 
 use util\Objects;
 
-
 // Content-Disposition
-  define('MIME_DISPOSITION_INLINE',     'inline');
+define('MIME_DISPOSITION_INLINE',     'inline');
 define('MIME_DISPOSITION_UNKNOWN',     '');
 define('MIME_DISPOSITION_ATTACHMENT', 'attachment');
 
 // Mime encodings
-  define('MIME_ENC_BASE64',     'base64');
+define('MIME_ENC_BASE64',     'base64');
 define('MIME_ENC_QPRINT',     'quoted-printable');
 define('MIME_ENC_8BIT',       '8-bit');
 
@@ -260,17 +259,22 @@ class MimePart extends \lang\Object {
   public function setHeaderString($str) {
     $t= strtok($str, "\n\r");
     while ($t) {
-      if ("\t" != $t{0}) @list($k, $t)= explode(': ', $t, 2);
+      if (("\t" === $t{0}) || (' ' === $t{0})) {
+        $value= substr($t, 1);
+      } else {
+        $value= null;
+        sscanf($t, "%[^:]: %[^\r]", $k, $value);
+      }
+
       switch (ucfirst($k)) {
         case HEADER_CONTENTTYPE:
         case HEADER_ENCODING:
         case 'Content-Disposition':
-          
-          // Ignore, these are alreay set
+          // Ignore, these are already set
           break;
         
         default:
-          $this->headers[$k]= (isset($this->headers[$k]) ? $this->headers[$k]."\n\t" : '').$t;
+          $this->headers[$k]= isset($this->headers[$k]) ? $this->headers[$k].' '.$value : $value;
       }
       $t= strtok("\n\r");
     }
