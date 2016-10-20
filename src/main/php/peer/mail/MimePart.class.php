@@ -16,8 +16,8 @@ define('MIME_ENC_7BIT',       '7bit');
 /**
  * MIME message part
  *
- * @see      rfc://1521
- * @purpose  Wrap
+ * @test  xp://peer.mail.unittest.MimePartTest
+ * @see   rfc://1521
  */
 class MimePart extends \lang\Object {
   public
