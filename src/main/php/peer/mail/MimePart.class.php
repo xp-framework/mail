@@ -260,7 +260,7 @@ class MimePart extends \lang\Object {
   public function setHeaderString($str) {
     $t= strtok($str, "\n\r");
     while ($t) {
-      if ("\t" != $t{0}) list($k, $t)= explode(': ', $t, 2);
+      if ("\t" != $t{0}) @list($k, $t)= explode(': ', $t, 2);
       switch (ucfirst($k)) {
         case HEADER_CONTENTTYPE:
         case HEADER_ENCODING:
