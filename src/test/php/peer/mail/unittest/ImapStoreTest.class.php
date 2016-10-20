@@ -17,19 +17,18 @@ class ImapStoreTest extends TestCase {
    * Sets up test case
    */
   public function setUp() {
-    $this->fixture= newinstance(ImapStore::class, [], '{
-      public $connect= array();
-      
-      protected function _connect($mbx, $user, $pass, $flags) {
-        $this->connect= array(
-          "mbx"   => $mbx, 
-          "user"  => $user, 
-          "pass"  => $pass, 
-          "flags" => $flags
-        );
-        return TRUE;
+    $this->fixture= newinstance(ImapStore::class, [], [
+      'connect' => [],
+      '_connect' => function($mbx, $user, $pass, $flags) {
+        $this->connect= [
+          'mbx'   => $mbx,
+          'user'  => $user,
+          'pass'  => $pass,
+          'flags' => $flags
+        ];
+        return true;
       }
-    }');
+    ]);
   }
   
   /**
