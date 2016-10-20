@@ -14,6 +14,14 @@ abstract class HeaderParsingTest extends \unittest\TestCase {
   protected abstract function parse($str);
 
   #[@test, @values([
+  #  "Header: Value",
+  #  "Header:Value"
+  #])]
+  public function header($variant) {
+    $this->assertEquals(['Header' => 'Value'], $this->parse($variant)->headers);
+  }
+
+  #[@test, @values([
   #  "Header:",
   #  "Header: "
   #])]
