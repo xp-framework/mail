@@ -3,6 +3,12 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 7.3.1 / 2016-10-20
+
+* Fixed `lang.IndexOutOfBoundsException (Undefined offset: 1)` error
+  when header line did not contain any value after the colon
+  (@thekid)
+
 ## 7.3.0 / 2016-10-16
 
 * Added `newFolder()` and `removeFolder()` methods to `CclientStore`
