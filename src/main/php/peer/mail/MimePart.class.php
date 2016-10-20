@@ -10,7 +10,8 @@ define('MIME_DISPOSITION_ATTACHMENT', 'attachment');
 // Mime encodings
 define('MIME_ENC_BASE64',     'base64');
 define('MIME_ENC_QPRINT',     'quoted-printable');
-define('MIME_ENC_8BIT',       '8-bit');
+define('MIME_ENC_8BIT',       '8bit');
+define('MIME_ENC_7BIT',       '7bit');
 
 /**
  * MIME message part
@@ -233,6 +234,7 @@ class MimePart extends \lang\Object {
   /**
    * Get part body.
    *
+   * @see     http://www.w3.org/Protocols/rfc1341/5_Content-Transfer-Encoding.html
    * @param   decode default FALSE
    * @return  string
    */
