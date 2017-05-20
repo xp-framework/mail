@@ -43,7 +43,7 @@ abstract class Transport implements Traceable, \lang\Closeable {
    */
   public function setTrace($cat) {
     if (null !== $cat && !$cat instanceof LogCategory) {
-      throw new IllegalArgumentException('Expected a LogCategory, have '.\xp::typeOf($cat));
+      throw new IllegalArgumentException('Expected a LogCategory, have '.typeof($cat)->getName());
     }
     
     $this->cat= $cat;

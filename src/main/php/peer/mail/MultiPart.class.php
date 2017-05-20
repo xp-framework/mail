@@ -74,7 +74,7 @@ class MultiPart extends MimePart {
   public function addPart($part) {
     if (!$part instanceof MimePart) {
       throw new IllegalArgumentException(
-        'Parameter part is not a peer.mail.MimePart (given: '.\xp::typeOf($part).')'
+        'Parameter part is not a peer.mail.MimePart (given: '.typeof($part)->getName().')'
       );
     }
     $this->parts[]= $part;

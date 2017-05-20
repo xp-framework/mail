@@ -3,6 +3,12 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 7.3.3 / 2017-05-20
+
+* Refactored code to use `typeof()` instead of `xp::typeOf()`, see
+  https://github.com/xp-framework/rfc/issues/323
+  (@thekid)
+
 ## 7.3.2 / 2016-10-20
 
 * Fixed 8bit encoding constant `MIME_ENC_8BIT` - @thekid

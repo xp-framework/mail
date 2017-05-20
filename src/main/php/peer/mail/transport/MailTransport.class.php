@@ -51,10 +51,7 @@ class MailTransport extends Transport {
       $to.= $message->to[$i]->toString($message->getCharset()).', ';
     }
     if (empty($to)) {
-      throw new TransportException(
-        'No recipients defined (recipients[0]: '.\xp::typeOf($message->to[0]),
-        new \lang\IllegalArgumentException('Recipient #0 is not an InternetAddress object')
-      );
+      throw new TransportException('No recipients defined');
     }
     
     // Copy message and unset To / Subject. PHPs mail() function will add them
