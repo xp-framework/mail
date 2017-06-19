@@ -2,7 +2,6 @@
  
 use peer\mail\MessagingException;
 use peer\mail\MailFolder;
-
  
 /**
  * An abstract class that models a message store and its access protocol, 
@@ -35,7 +34,7 @@ use peer\mail\MailFolder;
  * @see      xp://peer.mail.MailFolder
  * @purpose  Interface for different MailStores
  */
-class MailStore extends \lang\Object {
+class MailStore {
   public 
     $_hdl  = null,
     $cache = null;

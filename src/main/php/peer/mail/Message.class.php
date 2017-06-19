@@ -62,9 +62,8 @@ define('HEADER_RETURNPATH',   'Return-Path');
  * @see      xp://peer.mail.MimeMessage
  * @see      xp://peer.mail.transport.Transport
  * @test     xp://net.xp_framework.unittest.peer.mail.MessageTest
- * @purpose  Provide a basic e-mail message (single-part)
  */
-class Message extends \lang\Object {
+class Message {
   public 
     $headers          = [],
     $body             = '',

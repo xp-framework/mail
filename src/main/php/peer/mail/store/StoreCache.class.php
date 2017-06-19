@@ -13,9 +13,8 @@ define('SKEY_PART',     'part.');
  * @see      xp://peer.mail.MailStore
  * @purpose  Provide an API for caching of MailStore objects
  */
-class StoreCache extends \lang\Object {
-  public
-    $data = [];
+class StoreCache {
+  public $data= [];
   
   /**
    * Create string representation, e.g.

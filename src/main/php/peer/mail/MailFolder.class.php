@@ -1,13 +1,11 @@
 <?php namespace peer\mail;
- 
-
 
 /**
  * Mail folder
  *
  * @purpose  Wrap
  */
-class MailFolder extends \lang\Object {
+class MailFolder {
   public
     $name  = '',
     $store = null;
@@ -23,8 +21,7 @@ class MailFolder extends \lang\Object {
    */  
   public function __construct($store, $name= '') {
     $this->name= $name;
-    $this->store= $store;
-    
+    $this->store= $store; 
   }
 
   /**

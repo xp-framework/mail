@@ -2,7 +2,6 @@
  
 use text\encode\QuotedPrintable;
 use text\encode\Base64;
-
  
 /**
  * Internet address
@@ -12,9 +11,8 @@ use text\encode\Base64;
  * @see       http://www.cs.tut.fi/~jkorpela/rfc/822addr.html
  * @see       rfc://2822
  * @see       rfc://2822#3.4.1
- * @purpose   Represents an Internet address
  */
-class InternetAddress extends \lang\Object implements MessagingAddress {
+class InternetAddress implements MessagingAddress {
   public 
     $personal  = '',
     $localpart = '',

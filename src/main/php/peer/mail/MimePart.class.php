@@ -19,7 +19,7 @@ define('MIME_ENC_7BIT',       '7bit');
  * @test  xp://peer.mail.unittest.MimePartTest
  * @see   rfc://1521
  */
-class MimePart extends \lang\Object {
+class MimePart {
   public
     $contenttype      = '',
     $charset          = '',
