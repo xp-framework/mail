@@ -3,6 +3,11 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.0 / 2017-06-19
+
+* **Heads up:** Drop PHP 5.5 support - @thekid
+* Added forward compatibility with XP 9.0.0 - @thekid
+
 ## 7.3.3 / 2017-05-20
 
 * Refactored code to use `typeof()` instead of `xp::typeOf()`, see

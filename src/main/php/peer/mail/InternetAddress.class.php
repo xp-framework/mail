@@ -2,7 +2,7 @@
  
 use text\encode\QuotedPrintable;
 use text\encode\Base64;
-
+use lang\Value;
  
 /**
  * Internet address
@@ -12,9 +12,8 @@ use text\encode\Base64;
  * @see       http://www.cs.tut.fi/~jkorpela/rfc/822addr.html
  * @see       rfc://2822
  * @see       rfc://2822#3.4.1
- * @purpose   Represents an Internet address
  */
-class InternetAddress extends \lang\Object implements MessagingAddress {
+class InternetAddress implements MessagingAddress, Value {
   public 
     $personal  = '',
     $localpart = '',
@@ -52,19 +51,6 @@ class InternetAddress extends \lang\Object implements MessagingAddress {
    */
   public function hashCode() {
     return md5($this->localpart.'@'.$this->domain);
-  }
-  
-  /**
-   * Retrieve whether another object is equal to this
-   *
-   * @param   lang.Object cmp
-   * @return  bool
-   */
-  public function equals($cmp) {
-    return (
-      $cmp instanceof InternetAddress and 
-      $this->personal.$this->localpart.$this->domain === $cmp->personal.$cmp->localpart.$cmp->domain
-    );
   }
   
   /**
@@ -133,5 +119,21 @@ class InternetAddress extends \lang\Object implements MessagingAddress {
       empty($this->personal) ? '' : 
       QuotedPrintable::encode(iconv(\xp::ENCODING, $charset, $this->personal), $charset).' '
     ).'<'.$this->localpart.'@'.$this->domain.'>';
+  }
+
+  /**
+   * Compares this address to a given value
+   *
+   * @param  var $value
+   * @return int
+   */
+  public function compareTo($value) {
+    return $value instanceof self
+      ? strcmp(
+        $this->personal.' <'.$this->localpart.'@'.$this->domain.'>',
+        $value->personal.' <'.$value->localpart.'@'.$value->domain.'>'
+      )
+      : 1
+    ;
   }
 }
