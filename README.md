@@ -13,8 +13,7 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support.
 ## Creating an email
 
 ```php
-use peer\mail\Message;
-use peer\mail\InternetAddress;
+use peer\mail\{Message, InternetAddress};
 
 $msg= new Message();
 $msg->setFrom(new InternetAddress('friebe@example.com', 'Timm Friebe'));
@@ -28,8 +27,7 @@ $msg->setBody('Testmail');
 ## Sending email
 
 ```php
-use peer\mail\transport\MailTransport;
-use peer\mail\transport\TransportException;
+use peer\mail\transport\{MailTransport, TransportException};
 
 $smtp= new MailTransport();
 try {
@@ -45,8 +43,7 @@ $smtp->close();
 ## Using an SMTP server
 
 ```php
-use peer\mail\transport\SmtpConnection;
-use peer\mail\transport\TransportException;
+use peer\mail\transport\{SmtpConnection, TransportException};
 
 $smtp= new SmtpConnection('esmtp://user:pass@mail.example.com:25/?auth=login');
 try {
