@@ -261,7 +261,7 @@ class MimePart {
   public function setHeaderString($str) {
     $t= strtok($str, "\n\r");
     while ($t) {
-      if (("\t" === $t{0}) || (' ' === $t{0})) {
+      if (("\t" === $t[0]) || (' ' === $t[0])) {
         $value= substr($t, 1);
       } else {
         $value= null;

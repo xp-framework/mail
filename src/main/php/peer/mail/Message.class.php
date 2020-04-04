@@ -1,7 +1,7 @@
 <?php namespace peer\mail;
 
-use util\Date;
 use text\encode\QuotedPrintable;
+use util\Date;
 
 // Flags
 define('MAIL_FLAG_ANSWERED',      0x0001);
@@ -454,7 +454,7 @@ class Message {
 
     $t= strtok($str, "\n\r");
     while ($t) {
-      if (("\t" === $t{0}) || (' ' === $t{0})) {
+      if (("\t" === $t[0]) || (' ' === $t[0])) {
         $value= substr($t, 1);
       } else {
         $value= null;
@@ -476,7 +476,7 @@ class Message {
           $k= strtolower($k);
           $offset= 0;
           do {
-            if ('"' === $value{$offset}) {
+            if ('"' === $value[$offset]) {
               $quote= strpos($value, '"', $offset + 1);
               $span= strcspn($value, ',', $offset + $quote) + $quote;
             } else {
@@ -569,7 +569,7 @@ class Message {
     if (!isset($q)) $q= QuotedPrintable::getCharsToEncode();
     $n= false;
     for ($i= 0, $s= strlen($str); $i < $s; $i++) {
-      if (!in_array(ord($str{$i}), $q)) continue;
+      if (!in_array(ord($str[$i]), $q)) continue;
       $n= true;
       break;
     }
@@ -683,7 +683,7 @@ class Message {
     $s= '';
     $vars= get_object_vars($this);
     foreach (array_keys($vars) as $var) {
-      if ('_' == $var{0}) continue;
+      if ('_' == $var[0]) continue;
       $s.= sprintf("  [%-12s] %s\n", $var, \xp::stringOf($vars[$var], '  '));
     }
     return nameof($this).'['.$this->uid."]@{\n".$s."}\n";

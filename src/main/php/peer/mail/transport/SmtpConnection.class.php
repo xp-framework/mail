@@ -1,12 +1,12 @@
 <?php namespace peer\mail\transport;
  
-use peer\URL;
-use peer\Socket;
-use peer\SSLSocket;
-use peer\TLSSocket;
-use peer\ProtocolException;
-use lang\Throwable;
 use lang\IllegalArgumentException;
+use lang\Throwable;
+use peer\ProtocolException;
+use peer\SSLSocket;
+use peer\Socket;
+use peer\TLSSocket;
+use peer\URL;
 use peer\mail\Message;
 
 /**
@@ -110,7 +110,7 @@ class SmtpConnection extends Transport {
             sscanf($buf, "%d%[^\r]", $code, $capability);
             $this->trace('+++', $code, $capability);
             $this->capabilities[substr($capability, 1)]= true;
-            if ('-' !== $capability{0}) break;
+            if ('-' !== $capability[0]) break;
           }
         };
 
