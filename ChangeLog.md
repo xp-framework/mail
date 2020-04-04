@@ -3,6 +3,10 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 8.0.2 / 2020-04-04
+
+* Made compatible with XP 10 - @thekid
+
 ## 8.0.1 / 2018-08-25
 
 * Made compatible with `xp-framework/logging` version 9.0.0 - @thekid
