@@ -1,9 +1,9 @@
 <?php namespace peer\mail\unittest;
 
 use lang\{FormatException, IllegalArgumentException};
-use peer\{Socket, SocketException, URL};
-use peer\mail\{InternetAddress, Message};
 use peer\mail\transport\{SmtpConnection, TransportException};
+use peer\mail\{InternetAddress, Message};
+use peer\{Socket, SocketException, URL};
 use unittest\actions\VerifyThat;
 
 class SmtpConnectionTest extends \unittest\TestCase {
@@ -67,31 +67,32 @@ class SmtpConnectionTest extends \unittest\TestCase {
 
   #[@test]
   public function connected() {
-    $answers= [
-      '220 test (mreue101) ESMTP Service ready',
-      '250 test Hello tester'
-    ];
-    $conn= new SmtpConnection('smtp://test?helo=tester', newinstance(Socket::class, ['test', 25], [
-      'connected'   => false,
-      'isConnected' => function() { return $this->connected; },
-      'connect'     => function($timeout= 2) { $this->connected= true; },
-      'close'       => function() { $this->connected= false; },
-      'read'        => function($n= 8192) use(&$answers) { return array_shift($answers)."\r\n"; },
-      'write'       => function($bytes) { }
-    ]));
+    $conn= new SmtpConnection('smtp://test?helo=tester', new class('test', 25) extends Socket {
+      private $connected= false;
+      private $answers= [
+        '220 test (mreue101) ESMTP Service ready',
+        '250 test Hello tester'
+      ];
+
+      public function isConnected() { return $this->connected; }
+      public function connect($timeout= 2) { $this->connected= true; }
+      public function close() { $this->connected= false; }
+      public function read($n= 8192) { return array_shift($this->answers)."\r\n"; }
+      public function write($bytes) { }
+    });
     $conn->connect();
     $this->assertTrue($conn->connected());
   }
 
   #[@test, @expect(TransportException::class)]
   public function connection_failed() {
-    $conn= new SmtpConnection('smtp://test?helo=tester', newinstance(Socket::class, ['test', 25], [
-      'isConnected' => function() { return false; },
-      'connect'     => function($timeout= 2) { throw new SocketException('Cannot connect'); },
-      'close'       => function() { },
-      'read'        => function($n= 8192) { },
-      'write'       => function($bytes) { }
-    ]));
+    $conn= new SmtpConnection('smtp://test?helo=tester', new class('test', 25) extends Socket {
+      public function isConnected() { return false; }
+      public function connect($timeout= 2) { throw new SocketException('Cannot connect'); }
+      public function close() { }
+      public function read($n= 8192) { }
+      public function write($bytes) { }
+    });
     $conn->connect();
   }
 
