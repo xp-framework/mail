@@ -63,7 +63,7 @@ class CclientStore extends MailStore {
     if ($u->getParam('read-only')) $flags |= OP_READONLY;
     
 
-    $mbx= isset($attr['mbx']) ? $attr['mbx'] : sprintf(
+    $mbx= $attr['mbx'] ?? sprintf(
       '{%s:%d/%s}',
       $u->getHost(),
       $u->getPort($attr['port']),

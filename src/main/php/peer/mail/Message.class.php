@@ -422,7 +422,7 @@ class Message {
       $this->_headerlookup= array_change_key_case($this->headers, CASE_LOWER);
     }
     
-    return isset($this->_headerlookup[$header]) ? $this->_headerlookup[$header] : null;
+    return $this->_headerlookup[$header] ?? null;
   }
 
   /**
