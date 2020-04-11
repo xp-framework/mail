@@ -3,6 +3,15 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.0 / 2020-04-11
+
+* Implemented xp-framework/rfc#334: Drop PHP 5.6:
+  . **Heads up:** Minimum required PHP version now is PHP 7.0.0
+  . Rewrote code base, grouping use statements
+  . Rewrote `isset(X) ? X : default` to `X ?? default`
+  . Converted `newinstance` to anonymous classes
+  (@thekid)
+
 ## 8.0.2 / 2020-04-04
 
 * Made compatible with XP 10 - @thekid
