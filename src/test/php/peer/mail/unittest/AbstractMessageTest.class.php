@@ -1,7 +1,7 @@
 <?php namespace peer\mail\unittest;
 
-use util\Date;
 use peer\mail\InternetAddress;
+use util\Date;
 
 /**
  * Tests Message class

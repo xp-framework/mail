@@ -1,8 +1,8 @@
 <?php namespace peer\mail\util;
 
 use lang\MethodNotImplementedException;
-use peer\mail\MimeMessage;
 use peer\URL;
+use peer\mail\MimeMessage;
 
 
 /**

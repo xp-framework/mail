@@ -1,7 +1,6 @@
 <?php namespace peer\mail\unittest;
 
-use peer\mail\MultiPart;
-use peer\mail\MimePart;
+use peer\mail\{MimePart, MultiPart};
 
 class MultiPartTest extends \unittest\TestCase {
 

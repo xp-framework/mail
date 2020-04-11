@@ -1,7 +1,6 @@
 <?php namespace peer\mail\unittest;
 
-use peer\mail\Message;
-use peer\mail\InternetAddress;
+use peer\mail\{InternetAddress, Message};
 use util\Date;
 
 class MessageHeaderParsingTest extends HeaderParsingTest {

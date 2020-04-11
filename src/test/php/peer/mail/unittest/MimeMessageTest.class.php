@@ -1,7 +1,6 @@
 <?php namespace peer\mail\unittest;
 
-use peer\mail\MimeMessage;
-use peer\mail\MimePart;
+use peer\mail\{MimeMessage, MimePart};
 
 /**
  * Tests MimeMessage class

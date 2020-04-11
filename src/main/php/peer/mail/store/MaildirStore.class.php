@@ -1,7 +1,6 @@
 <?php namespace peer\mail\store;
 
-use io\Folder;
-use io\File;
+use io\{File, Folder};
 
 
 /**

@@ -1,8 +1,8 @@
 <?php namespace peer\mail\unittest;
 
+use peer\mail\store\ImapStore;
 use unittest\TestCase;
 use unittest\actions\ExtensionAvailable;
-use peer\mail\store\ImapStore;
 
 /**
  * TestCase for peer.mail.store.ImapStore

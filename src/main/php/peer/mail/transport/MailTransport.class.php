@@ -1,7 +1,7 @@
 <?php namespace peer\mail\transport;
  
-use text\encode\QuotedPrintable;
 use peer\mail\Message;
+use text\encode\QuotedPrintable;
 
 /**
  * Mail transport via built-in mail() function

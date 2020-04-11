@@ -1,12 +1,7 @@
 <?php namespace peer\mail\transport;
  
-use lang\IllegalArgumentException;
-use lang\Throwable;
-use peer\ProtocolException;
-use peer\SSLSocket;
-use peer\Socket;
-use peer\TLSSocket;
-use peer\URL;
+use lang\{IllegalArgumentException, Throwable};
+use peer\{ProtocolException, SSLSocket, Socket, TLSSocket, URL};
 use peer\mail\Message;
 
 /**

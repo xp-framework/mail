@@ -1,7 +1,7 @@
 <?php namespace peer\mail\unittest;
 
-use unittest\TestCase;
 use peer\mail\InternetAddress;
+use unittest\TestCase;
 
 /**
  * Testcase for InternetAddress class

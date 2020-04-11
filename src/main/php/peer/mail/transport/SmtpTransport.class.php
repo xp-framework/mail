@@ -1,7 +1,6 @@
 <?php namespace peer\mail\transport;
  
-use peer\URL;
-use peer\Socket;
+use peer\{Socket, URL};
 use peer\mail\Message;
 
 // Authentication methods

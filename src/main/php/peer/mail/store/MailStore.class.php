@@ -1,8 +1,7 @@
 <?php namespace peer\mail\store;
  
-use peer\mail\MessagingException;
-use peer\mail\MailFolder;
- 
+use peer\mail\{MailFolder, MessagingException};
+
 /**
  * An abstract class that models a message store and its access protocol, 
  * for storing and retrieving messages. Subclasses provide actual 

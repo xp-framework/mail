@@ -1,14 +1,9 @@
 <?php namespace peer\mail\unittest;
 
-use lang\FormatException;
-use lang\IllegalArgumentException;
-use peer\mail\transport\SmtpConnection;
-use peer\mail\transport\TransportException;
-use peer\mail\Message;
-use peer\mail\InternetAddress;
-use peer\URL;
-use peer\Socket;
-use peer\SocketException;
+use lang\{FormatException, IllegalArgumentException};
+use peer\{Socket, SocketException, URL};
+use peer\mail\{InternetAddress, Message};
+use peer\mail\transport\{SmtpConnection, TransportException};
 use unittest\actions\VerifyThat;
 
 class SmtpConnectionTest extends \unittest\TestCase {

@@ -1,7 +1,6 @@
 <?php namespace peer\mail\util;
 
-use io\File;
-use io\FileUtil;
+use io\{File, FileUtil};
 use util\MimeType;
 
 /**

@@ -1,9 +1,8 @@
 <?php namespace peer\mail\transport;
  
-use util\log\Traceable;
-use util\log\LogCategory;
-use peer\mail\Message;
 use lang\IllegalArgumentException;
+use peer\mail\Message;
+use util\log\{LogCategory, Traceable};
 
 /**
  * Abstract base class for mail transport

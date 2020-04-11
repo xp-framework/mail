@@ -1,9 +1,8 @@
 <?php namespace peer\mail;
  
-use text\encode\QuotedPrintable;
-use text\encode\Base64;
 use lang\Value;
- 
+use text\encode\{Base64, QuotedPrintable};
+
 /**
  * Internet address
  *
