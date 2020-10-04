@@ -1,8 +1,8 @@
 <?php namespace peer\mail\transport;
  
 use lang\{IllegalArgumentException, Throwable};
-use peer\{ProtocolException, SSLSocket, Socket, TLSSocket, URL};
 use peer\mail\Message;
+use peer\{ProtocolException, SSLSocket, Socket, TLSSocket, URL};
 
 /**
  * Mail transport via SMTP
@@ -100,7 +100,7 @@ class SmtpConnection extends Transport {
     switch (strtolower($scheme)) {
       case 'esmtp': case 'esmtps':
         return function() {
-          $answer= $this->command('EHLO %s', $this->helo, 250);
+          $answer= $this->command('EHLO %s', [$this->helo], 250);
           while ($answer && $buf= $this->socket->read()) {
             sscanf($buf, "%d%[^\r]", $code, $capability);
             $this->trace('+++', $code, $capability);
@@ -174,6 +174,10 @@ class SmtpConnection extends Transport {
    * @return void
    */
   private function starttls() {
+    if (null === ($handle= $this->socket->getHandle())) {
+      throw new ProtocolException('Not connected');
+    }
+
     $this->command('STARTTLS', [], 220);
     $this->trace('*** Enabling crypto (STREAM_CRYPTO_METHOD_TLS_CLIENT)');
     if (stream_socket_enable_crypto($this->socket->getHandle(), true, STREAM_CRYPTO_METHOD_TLS_CLIENT)) {
@@ -270,10 +274,10 @@ class SmtpConnection extends Transport {
    */
   public function send(Message $message) {
     try {
-      $this->command('MAIL FROM: %s', $message->from->getAddress(), 250);
+      $this->command('MAIL FROM: %s', [$message->from->getAddress()], 250);
       foreach ([TO, CC, BCC] as $type) {
         foreach ($message->getRecipients($type) as $r) {
-          $this->command('RCPT TO: %s', $r->getAddress(), [250, 251]);
+          $this->command('RCPT TO: %s', [$r->getAddress()], [250, 251]);
         }
       }
 

@@ -3,6 +3,11 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.1 / 2020-10-04
+
+* Fix "vsprintf(): Argument #2 ($args) must be of type array, string given"
+  (@thekid)
+
 ## 9.0.0 / 2020-04-11
 
 * Implemented xp-framework/rfc#334: Drop PHP 5.6:
