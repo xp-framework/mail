@@ -1,46 +1,47 @@
 <?php namespace peer\mail\unittest;
 
 use peer\mail\{MimePart, MultiPart};
+use unittest\Test;
 
 class MultiPartTest extends \unittest\TestCase {
 
-  #[@test]
+  #[Test]
   public function can_create() {
     new MultiPart();
   }
 
-  #[@test]
+  #[Test]
   public function can_create_with_one() {
     new MultiPart(new MimePart());
   }
 
-  #[@test]
+  #[Test]
   public function can_create_with_two() {
     new MultiPart(new MimePart(), new MimePart());
   }
 
-  #[@test]
+  #[Test]
   public function all_parts() {
     $text= new MimePart('Text', 'text/plain');
     $html= new MimePart('<html/>', 'text/html');
     $this->assertEquals([$text, $html], (new MultiPart($text, $html))->getParts());
   }
 
-  #[@test]
+  #[Test]
   public function text_part() {
     $text= new MimePart('Text', 'text/plain');
     $html= new MimePart('<html/>', 'text/html');
     $this->assertEquals($text, (new MultiPart($text, $html))->getPart(0));
   }
 
-  #[@test]
+  #[Test]
   public function html_part() {
     $text= new MimePart('Text', 'text/plain');
     $html= new MimePart('<html/>', 'text/html');
     $this->assertEquals($html, (new MultiPart($text, $html))->getPart(1));
   }
 
-  #[@test]
+  #[Test]
   public function non_existant_part() {
     $text= new MimePart('Text', 'text/plain');
     $html= new MimePart('<html/>', 'text/html');

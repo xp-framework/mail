@@ -1,6 +1,7 @@
 <?php namespace peer\mail\unittest;
 
 use peer\mail\{MimeMessage, MimePart};
+use unittest\Test;
 
 /**
  * Tests MimeMessage class
@@ -18,7 +19,7 @@ class MimeMessageTest extends AbstractMessageTest {
     return $fixture;
   }
 
-  #[@test]
+  #[Test]
   public function default_headers_returned_by_getHeaderString() {
     $this->fixture->setHeader('X-Common-Header', 'test');
     $this->assertEquals(
@@ -32,63 +33,63 @@ class MimeMessageTest extends AbstractMessageTest {
     );
   }
 
-  #[@test]
+  #[Test]
   public function boundary_accessors() {
     $this->fixture->setBoundary('----=_Part_0815Test');
     $this->assertEquals('----=_Part_0815Test', $this->fixture->getBoundary());
   }
 
-  #[@test]
+  #[Test]
   public function add_part_returns_added_part() {
     $part= new MimePart();
     $this->assertEquals($part, $this->fixture->addPart($part));
   }
 
-  #[@test]
+  #[Test]
   public function getParts_initially_returns_empty_array() {
     $this->assertEquals([], $this->fixture->getParts());
   }
 
-  #[@test]
+  #[Test]
   public function getParts_returns_added_part() {
     $part= $this->fixture->addPart(new MimePart());
     $this->assertEquals([$part], $this->fixture->getParts());
   }
 
-  #[@test]
+  #[Test]
   public function getParts_returns_added_parts() {
     $part1= $this->fixture->addPart(new MimePart());
     $part2= $this->fixture->addPart(new MimePart());
     $this->assertEquals([$part1, $part2], $this->fixture->getParts());
   }
 
-  #[@test]
+  #[Test]
   public function getPart_returns_added_part() {
     $part= $this->fixture->addPart(new MimePart());
     $this->assertEquals($part, $this->fixture->getPart(0));
   }
 
-  #[@test]
+  #[Test]
   public function getPart_returns_added_parts() {
     $part1= $this->fixture->addPart(new MimePart());
     $part2= $this->fixture->addPart(new MimePart());
     $this->assertEquals([$part1, $part2], [$this->fixture->getPart(0), $this->fixture->getPart(1)]);
   }
 
-  #[@test]
+  #[Test]
   public function setBody_sets_first_part() {
     $this->fixture->setBody('Test');
     $this->assertEquals(new MimePart('Test', 'text/plain'), $this->fixture->getPart(0));
   }
 
-  #[@test]
+  #[Test]
   public function setBody_removes_previously_added_parts() {
     $this->fixture->addPart(new MimePart());
     $this->fixture->setBody('Test');
     $this->assertEquals(new MimePart('Test', 'text/plain'), $this->fixture->getPart(0));
   }
 
-  #[@test]
+  #[Test]
   public function getBody_for_two_parts() {
     $this->fixture->addPart(new MimePart('Test', 'text/plain'));
     $this->fixture->addPart(new MimePart('GIF89aXXXX', 'image/gif', '8bit', 'test.gif'));
@@ -112,7 +113,7 @@ class MimeMessageTest extends AbstractMessageTest {
     );
   }
 
-  #[@test]
+  #[Test]
   public function one_text_part() {
     $this->fixture->addPart(new MimePart('Part #1', 'text/plain'));
 
@@ -127,7 +128,7 @@ class MimeMessageTest extends AbstractMessageTest {
     $this->assertEquals('Part #1', $this->fixture->getBody());
   }
 
-  #[@test]
+  #[Test]
   public function one_image_part() {
     $this->fixture->addPart(new MimePart('Part #1', 'image/gif'));
     
@@ -142,7 +143,7 @@ class MimeMessageTest extends AbstractMessageTest {
     $this->assertEquals('Part #1', $this->fixture->getBody());
   }
 
-  #[@test]
+  #[Test]
   public function two_text_parts() {
     $this->fixture->addPart(new MimePart('Part #1', 'text/plain'));
     $this->fixture->addPart(new MimePart('Part #2', 'text/plain'));
@@ -173,7 +174,7 @@ class MimeMessageTest extends AbstractMessageTest {
     );
   }
 
-  #[@test]
+  #[Test]
   public function two_image_parts() {
     $this->fixture->addPart(new MimePart('Part #1', 'image/gif'));
     $this->fixture->addPart(new MimePart('Part #2', 'image/gif'));

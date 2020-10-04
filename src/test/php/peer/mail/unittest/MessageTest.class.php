@@ -1,6 +1,7 @@
 <?php namespace peer\mail\unittest;
 
 use peer\mail\Message;
+use unittest\Test;
 
 /**
  * Tests Message class
@@ -16,7 +17,7 @@ class MessageTest extends AbstractMessageTest {
     return new Message();
   }
 
-  #[@test]
+  #[Test]
   public function default_headers_returned_by_getHeaderString() {
     $this->fixture->setHeader('X-Common-Header', 'test');
     $this->assertEquals(
