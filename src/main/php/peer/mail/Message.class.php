@@ -474,11 +474,12 @@ class Message {
         case 'to': case 'cc': case 'bcc':
           if ('' === $value) break;
           $k= strtolower($k);
+          $l= strlen($value);
           $offset= 0;
           do {
             if ('"' === $value[$offset]) {
               $quote= strpos($value, '"', $offset + 1);
-              $span= strcspn($value, ',', $offset + $quote) + $quote;
+              $span=  $offset + $quote > $l ? $quote : strcspn($value, ',', $offset + $quote) + $quote;
             } else {
               $span= strcspn($value, ',', $offset);
             }
@@ -488,8 +489,11 @@ class Message {
             } catch (\lang\FormatException $e) {
               $this->addRecipient($k, new InternetAddress([null, null], $value));
             }
-            $offset+= $span + strspn($value, ', ', $offset + $span);
-          } while ($offset < strlen($value));
+
+            $offset+= $span;
+            if ($offset > $l) break;
+            $offset+= strspn($value, ', ', $offset);
+          } while ($offset < $l);
           break;
           
         case 'mime-version':

@@ -3,6 +3,11 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.0.2 / 2020-10-09
+
+* Fixed *strspn(): Argument #3 ($offset) must be contained...* warning
+  (@thekid)
+
 ## 9.0.1 / 2020-10-04
 
 * Fix "vsprintf(): Argument #2 ($args) must be of type array, string given"
