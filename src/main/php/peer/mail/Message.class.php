@@ -432,7 +432,7 @@ class Message {
    * @return string
    */
   protected function decode($header) {
-    if (preg_match('/^=\?([^\?]+)\?([QB])\?([^\?]+)\?=$/', $header, $matches)) {
+    if (preg_match('/^=\?([^\?]+)\?([QB])\?([^\?]+)\?=$/', $header ?? '', $matches)) {
       if ('Q' === $matches[2]) {
         return iconv($matches[1], \xp::ENCODING, QuotedPrintable::decode($matches[3]));
       } else if ('B' === $matches[2]) {

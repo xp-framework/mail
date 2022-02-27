@@ -12,6 +12,7 @@ use unittest\{Test, TestCase};
  */
 #[Action(eval: 'new ExtensionAvailable("imap")')]
 class ImapStoreTest extends TestCase {
+  private $fixture;
 
   /** @return void */
   public function setUp() {

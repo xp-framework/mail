@@ -1,7 +1,13 @@
 E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
-========================================================================
+=============================================================================
 
 ## ?.?.? / ????-??-??
+
+## 9.0.3 / 2022-02-27
+
+* Fixed *Creation of dynamic property* warnings in PHP 8.2 - @thekid
+* Fixed *Passing null to parameter #2 ($subject) of type string* warning
+  (@thekid)
 
 ## 9.0.2 / 2020-10-09
 
