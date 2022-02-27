@@ -5,6 +5,9 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## 9.0.3 / 2022-02-27
 
+* Made library compatible with XP 11, upgraded `xp-framework/logging` to
+  11.0.0+ and `xp-framework/text-encode` 10.0.0+
+  (@thekid)
 * Fixed *Creation of dynamic property* warnings in PHP 8.2 - @thekid
 * Fixed *Passing null to parameter #2 ($subject) of type string* warning
   (@thekid)
