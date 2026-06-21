@@ -3,6 +3,15 @@ E-Mail APIs, POP3, IMAP, MailDir, SMTP support for the XP Framework ChangeLog
 
 ## ?.?.? / ????-??-??
 
+## 9.1.0 / 2026-06-21
+
+* Made library compatible with XP 11, all PHP versions from 8.3 up to 8.6
+  (@thekid)
+* Merged PR #3: Refactor I/O exceptions, dropping XP 10 support in the
+  doing. See xp-framework/core#363 for a write-up on the reason behind
+  this and the plan to move forward.
+  (@thekid)
+
 ## 9.0.3 / 2022-02-27
 
 * Made library compatible with XP 11, upgraded `xp-framework/logging` to
