@@ -1,5 +1,6 @@
 <?php namespace peer\mail\transport;
- 
+
+use io\OperationFailed;
 use peer\mail\Message;
 use text\encode\QuotedPrintable;
 
@@ -7,19 +8,16 @@ use text\encode\QuotedPrintable;
  * Mail transport via built-in mail() function
  *
  * Example:
- * <code>
- *   // [...build messages array...]
- *   $t= new MailTransport();
- *   $t->connect();       // use $t->connect('-odq'); for queuing
+ * ```php
+ * // [...build messages array...]
+ * $t= new MailTransport();
+ * $t->connect();       // use $t->connect('-odq'); for queuing
  *
- *   for ($i= 0, $size= sizeof($message); $i < $size; $i++) {
- *     $t->send($message);
- *   }
- *   $t->close();
- * </code>
- *
- * @see      php://mail
- * @purpose  Provide transport via mail()
+ * for ($i= 0, $size= sizeof($message); $i < $size; $i++) {
+ *   $t->send($message);
+ * }
+ * $t->close();
+ * ```
  */
 class MailTransport extends Transport {
   protected
@@ -72,7 +70,7 @@ class MailTransport extends Transport {
     )) {
       throw new TransportException(
         'Could not send mail to '.\xp::stringOf($message->to[0]), 
-        new \io\IOException('Call to mail() failed')
+        new OperationFailed('Call to mail() failed')
       );
     }
     return true;
