@@ -1,7 +1,7 @@
 <?php namespace peer\mail\unittest;
 
 use peer\mail\MimePart;
-use unittest\{Test, Values};
+use test\{Assert, Test, Values};
 
 class MimePartHeaderParsingTest extends HeaderParsingTest {
 
@@ -19,6 +19,6 @@ class MimePartHeaderParsingTest extends HeaderParsingTest {
 
   #[Test, Values(['Content-Type', 'Content-Transfer-Encoding', 'Content-Disposition'])]
   public function ignored($header) {
-    $this->assertEquals([], $this->parse($header.': Test')->headers);
+    Assert::equals([], $this->parse($header.': Test')->headers);
   }
 }

@@ -1,8 +1,8 @@
 <?php namespace peer\mail\unittest;
 
 use peer\mail\store\ImapStore;
-use unittest\actions\ExtensionAvailable;
-use unittest\{Test, TestCase};
+use test\verify\Runtime;
+use test\{Assert, Before, Test};
 
 /**
  * TestCase for peer.mail.store.ImapStore
@@ -10,11 +10,12 @@ use unittest\{Test, TestCase};
  * @see  xp://peer.mail.store.ImapStore
  * @see  xp://peer.mail.store.CclientStore
  */
-#[Action(eval: 'new ExtensionAvailable("imap")')]
-class ImapStoreTest extends TestCase {
+#[Runtime(extensions: ['imap'])]
+class ImapStoreTest {
   private $fixture;
 
   /** @return void */
+  #[Before]
   public function setUp() {
     $this->fixture= new class() extends ImapStore {
       public $connect;
@@ -34,36 +35,36 @@ class ImapStoreTest extends TestCase {
   #[Test]
   public function connectImap() {
     $this->fixture->connect('imap://example.org');
-    $this->assertEquals('{example.org:143/imap}', $this->fixture->connect['mbx']);
+    Assert::equals('{example.org:143/imap}', $this->fixture->connect['mbx']);
   }
   
   #[Test]
   public function connectImaps() {
     $this->fixture->connect('imaps://example.org');
-    $this->assertEquals('{example.org:993/imap/ssl}', $this->fixture->connect['mbx']);
+    Assert::equals('{example.org:993/imap/ssl}', $this->fixture->connect['mbx']);
   }
 
   #[Test]
   public function connectImapt() {
     $this->fixture->connect('imapt://example.org');
-    $this->assertEquals('{example.org:993/imap/tls}', $this->fixture->connect['mbx']);
+    Assert::equals('{example.org:993/imap/tls}', $this->fixture->connect['mbx']);
   }
 
   #[Test]
   public function connectImapsNoValidate() {
     $this->fixture->connect('imaps://example.org?novalidate-cert=1');
-    $this->assertEquals('{example.org:993/imap/ssl/novalidate-cert}', $this->fixture->connect['mbx']);
+    Assert::equals('{example.org:993/imap/ssl/novalidate-cert}', $this->fixture->connect['mbx']);
   }
   
   #[Test]
   public function connectImaptNoValidate() {
     $this->fixture->connect('imapt://example.org?novalidate-cert=1');
-    $this->assertEquals('{example.org:993/imap/tls/novalidate-cert}', $this->fixture->connect['mbx']);
+    Assert::equals('{example.org:993/imap/tls/novalidate-cert}', $this->fixture->connect['mbx']);
   }
   
   #[Test]
   public function connectImapNonStandardPort() {
     $this->fixture->connect('imap://example.org:566');
-    $this->assertEquals('{example.org:566/imap}', $this->fixture->connect['mbx']);
+    Assert::equals('{example.org:566/imap}', $this->fixture->connect['mbx']);
   }
 }
