@@ -4,9 +4,9 @@ use lang\{FormatException, IllegalArgumentException};
 use peer\mail\transport\{SmtpConnection, TransportException};
 use peer\mail\{InternetAddress, Message};
 use peer\{Socket, SocketException, URL};
-use unittest\{Expect, Test, Values};
+use test\{Assert, Expect, Test, Values};
 
-class SmtpConnectionTest extends \unittest\TestCase {
+class SmtpConnectionTest {
 
   #[Test, Values(['smtp://smtp.example.com', 'smtp://smtp.example.com:2525', 'esmtp://user:pass@smtp.example.com:25/?auth=plain', 'esmtp://user:pass@smtp.example.com:25/?auth=login', 'esmtp://user:pass@smtp.example.com:25/?starttls=never', 'esmtp://user:pass@smtp.example.com:25/?starttls=auto', 'esmtp://user:pass@smtp.example.com:25/?starttls=always'])]
   public function can_create_with($dsn) {
@@ -40,12 +40,12 @@ class SmtpConnectionTest extends \unittest\TestCase {
 
   #[Test, Values(['smtp://smtp.example.com', 'smtp://smtp.example.com:25', 'esmtp://user:pass@smtp.example.com/?auth=plain', 'esmtp://user:pass@smtp.example.com:25/?auth=login'])]
   public function server($dsn) {
-    $this->assertEquals('smtp.example.com:25', (new SmtpConnection($dsn))->server());
+    Assert::equals('smtp.example.com:25', (new SmtpConnection($dsn))->server());
   }
 
   #[Test]
   public function intially_not_connected() {
-    $this->assertFalse((new SmtpConnection('smtp://test'))->connected());
+    Assert::false((new SmtpConnection('smtp://test'))->connected());
   }
 
   #[Test]
@@ -64,7 +64,7 @@ class SmtpConnectionTest extends \unittest\TestCase {
       public function write($bytes) { }
     });
     $conn->connect();
-    $this->assertTrue($conn->connected());
+    Assert::true($conn->connected());
   }
 
   #[Test, Expect(TransportException::class)]
@@ -97,9 +97,9 @@ class SmtpConnectionTest extends \unittest\TestCase {
     $conn->connect();
     $conn->close();
 
-    $this->assertEquals(['HELO tester', 'QUIT'], $commands);
-    $this->assertEquals('test (mreue101) ESMTP Service ready', $conn->banner());
-    $this->assertEquals([], $conn->capabilities());
+    Assert::equals(['HELO tester', 'QUIT'], $commands);
+    Assert::equals('test (mreue101) ESMTP Service ready', $conn->banner());
+    Assert::equals([], $conn->capabilities());
   }
 
   #[Test]
@@ -122,9 +122,9 @@ class SmtpConnectionTest extends \unittest\TestCase {
     $conn->connect();
     $conn->close();
 
-    $this->assertEquals(['EHLO tester', 'QUIT'], $commands);
-    $this->assertEquals('test (mreue101) ESMTP Service ready', $conn->banner());
-    $this->assertEquals(['SIZE 69920427', 'AUTH LOGIN PLAIN'], $conn->capabilities());
+    Assert::equals(['EHLO tester', 'QUIT'], $commands);
+    Assert::equals('test (mreue101) ESMTP Service ready', $conn->banner());
+    Assert::equals(['SIZE 69920427', 'AUTH LOGIN PLAIN'], $conn->capabilities());
   }
 
   #[Test]
@@ -147,7 +147,7 @@ class SmtpConnectionTest extends \unittest\TestCase {
     $conn->connect();
     $conn->close();
 
-    $this->assertEquals(['EHLO tester', 'AUTH PLAIN AHVzZXIAcGFzcw==', 'QUIT'], $commands);
+    Assert::equals(['EHLO tester', 'AUTH PLAIN AHVzZXIAcGFzcw==', 'QUIT'], $commands);
   }
 
   #[Test]
@@ -172,7 +172,7 @@ class SmtpConnectionTest extends \unittest\TestCase {
     $conn->connect();
     $conn->close();
 
-    $this->assertEquals(['EHLO tester', 'AUTH LOGIN', 'dXNlcg==', 'cGFzcw==', 'QUIT'], $commands);
+    Assert::equals(['EHLO tester', 'AUTH LOGIN', 'dXNlcg==', 'cGFzcw==', 'QUIT'], $commands);
   }
 
   #[Test, Expect(TransportException::class)]
@@ -282,7 +282,7 @@ class SmtpConnectionTest extends \unittest\TestCase {
     }));
     $conn->close();
 
-    $this->assertEquals(
+    Assert::equals(
       ['HELO tester', 'MAIL FROM: sender@example.com', 'RCPT TO: recipient@example.com', 'DATA', null, 'Test', '.', 'QUIT'],
       array_merge(array_slice($commands, 0, 4), [null], array_slice($commands, 5))
     );

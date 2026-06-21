@@ -1,38 +1,35 @@
 <?php namespace peer\mail\unittest;
 
 use peer\mail\InternetAddress;
-use unittest\{Test, TestCase, Values};
+use test\{Assert, Test, Values};
 
-/**
- * Testcase for InternetAddress class
- */
-class InternetAddressTest extends TestCase {
+class InternetAddressTest {
 
   #[Test]
   public function create_with_address() {
     $address= new InternetAddress('kiesel@example.com');
-    $this->assertEquals('kiesel', $address->localpart);
-    $this->assertEquals('example.com', $address->domain);
+    Assert::equals('kiesel', $address->localpart);
+    Assert::equals('example.com', $address->domain);
   }
   
   #[Test, Values(['Alex Kiesel <kiesel@example.com>', 'kiesel@example.com (Alex Kiesel)', '"Alex Kiesel" <kiesel@example.com>', '=?iso-8859-1?Q?Alex_Kiesel?= <kiesel@example.com>', '=?utf-8?Q?Alex_Kiesel?= <kiesel@example.com>', '=?utf-8?B?QWxleCBLaWVzZWw?= <kiesel@example.com>',])]
   public function parse_from_string($string) {
     $address= InternetAddress::fromString($string);
-    $this->assertEquals('Alex Kiesel', $address->personal);
-    $this->assertEquals('kiesel', $address->localpart);
-    $this->assertEquals('example.com', $address->domain);
+    Assert::equals('Alex Kiesel', $address->personal);
+    Assert::equals('kiesel', $address->localpart);
+    Assert::equals('example.com', $address->domain);
   }
 
   #[Test]
   public function parse_from_string_without_personal() {
     $address= InternetAddress::fromString('kiesel@example.com');
-    $this->assertEquals('kiesel', $address->localpart);
-    $this->assertEquals('example.com', $address->domain);
+    Assert::equals('kiesel', $address->localpart);
+    Assert::equals('example.com', $address->domain);
   }
 
   #[Test]
   public function colons_are_escaped_in_output() {
-    $this->assertEquals(
+    Assert::equals(
       '=?utf-8?Q?I=3A=3ADev?= <idev@example.com>',
       (new InternetAddress('idev@example.com', 'I::Dev'))->toString()
     );
@@ -40,7 +37,7 @@ class InternetAddressTest extends TestCase {
 
   #[Test]
   public function umlaut_are_escaped_in_output() {
-    $this->assertEquals(
+    Assert::equals(
       '=?utf-8?Q?M=C3=BCcke?= <muecke@example.com>',
       (new InternetAddress('muecke@example.com', 'Mücke'))->toString()
     );
@@ -48,7 +45,7 @@ class InternetAddressTest extends TestCase {
 
   #[Test]
   public function umlaut_are_escaped_and_iso_encoded_in_output() {
-    $this->assertEquals(
+    Assert::equals(
       '=?iso-8859-1?Q?M=FCcke?= <muecke@example.com>',
       (new InternetAddress('muecke@example.com', 'Mücke'))->toString('iso-8859-1')
     );
@@ -56,7 +53,7 @@ class InternetAddressTest extends TestCase {
 
   #[Test]
   public function umlaut_are_escaped_and_utf8_encoded_in_output() {
-    $this->assertEquals(
+    Assert::equals(
       '=?utf-8?Q?M=C3=BCcke?= <muecke@example.com>',
       (new InternetAddress('muecke@example.com', 'Mücke'))->toString('utf-8')
     );
@@ -64,7 +61,7 @@ class InternetAddressTest extends TestCase {
   
   #[Test]
   public function space_characters_are_escaped_in_output() {
-    $this->assertEquals(
+    Assert::equals(
       '=?utf-8?Q?Alex_Kiesel?= <kiesel@example.com>', 
       (new InternetAddress('kiesel@example.com', 'Alex Kiesel'))->toString()
     );
@@ -72,7 +69,7 @@ class InternetAddressTest extends TestCase {
   
   #[Test]
   public function get_address_in_raw_format() {
-    $this->assertEquals(
+    Assert::equals(
       'kiesel@example.com', 
       (new InternetAddress('kiesel@example.com', 'Alex Kiesel'))->getAddress()
     );

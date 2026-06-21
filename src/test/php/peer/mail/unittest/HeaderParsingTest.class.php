@@ -1,11 +1,8 @@
 <?php namespace peer\mail\unittest;
 
-use unittest\{Test, Values, TestCase};
+use test\{Test, Assert, Values};
 
-/**
- * Tests header parsing - Message::setHeaderString()
- */
-abstract class HeaderParsingTest extends TestCase {
+abstract class HeaderParsingTest {
 
   /**
    * Parse a string containing message headers
@@ -17,16 +14,16 @@ abstract class HeaderParsingTest extends TestCase {
 
   #[Test, Values(["Header: Value", "Header:Value"])]
   public function header($variant) {
-    $this->assertEquals(['Header' => 'Value'], $this->parse($variant)->headers);
+    Assert::equals(['Header' => 'Value'], $this->parse($variant)->headers);
   }
 
   #[Test, Values(["Header:", "Header: "])]
   public function empty_header($variant) {
-    $this->assertEquals(['Header' => null], $this->parse($variant)->headers);
+    Assert::equals(['Header' => null], $this->parse($variant)->headers);
   }
 
   #[Test, Values(["Header: Line 1\n\tLine 2", "Header: Line 1\n Line 2"])]
   public function line_continued($variant) {
-    $this->assertEquals(['Header' => 'Line 1 Line 2'], $this->parse($variant)->headers);
+    Assert::equals(['Header' => 'Line 1 Line 2'], $this->parse($variant)->headers);
   }
 }
