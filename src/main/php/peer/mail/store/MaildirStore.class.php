@@ -1,15 +1,12 @@
 <?php namespace peer\mail\store;
 
-use io\{File, Folder};
-
+use io\{File, Folder, OperationFailed};
 
 /**
  * Mail store
  *
  * @see     http://cr.yp.to/proto/maildir.html
  * @see     http://www.courier-mta.org/maildir.html
- * @purpose Incarnation of abstract class MailStore for Maildir
- * @experimental
  */
 class MaildirStore extends MailStore {
   public 
@@ -36,13 +33,12 @@ class MaildirStore extends MailStore {
    * @return  bool success
    */    
   public function open($folder= null) {
-    if (null === $folder)
-      $folder= getenv ('HOME').DIRECTORY_SEPARATOR.'Maildir';
+    $folder ?? $folder= getenv('HOME').DIRECTORY_SEPARATOR.'Maildir';
     
     try {
-      $this->_folder= new Folder ($folder);
+      $this->_folder= new Folder($folder);
       $this->_folder->open();
-    } catch (\io\IOException $e) {
+    } catch (OperationFailed $e) {
       $this->_folder= null;
       return $e;
     }
@@ -133,7 +129,7 @@ class MaildirStore extends MailStore {
    * @param   bool readonly default FALSE
    * @return  bool success
    * @throws  lang.IllegalAccessException if another folder is still open
-   * @throws  io.IOException if folder cannot be opened
+   * @throws  io.OperationFailed if folder cannot be opened
    */
   public function openFolder($f, $readonly= false) {
     // Is it already open?
@@ -249,7 +245,7 @@ class MaildirStore extends MailStore {
    *
    * @param   string filename
    * @return  peer.mail.Message
-   * @throws  io.IOException if file cannot be read
+   * @throws  io.OperationFailed if file cannot be read
    */    
   protected function _readMessageRaw($filename) {
     $header= '';
@@ -300,7 +296,7 @@ class MaildirStore extends MailStore {
       
       try {
         $msg= $this->_readMessageRaw($filename);
-      } catch (\io\IOException $e) {
+      } catch (OperationFailed $e) {
       
         // Ignore any errors
         continue;
